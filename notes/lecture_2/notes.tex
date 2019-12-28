@@ -1,0 +1,73 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, graphicx, float, blindtext} % for dummy text
+\graphicspath{ {./images/} }
+
+\title{Word Vectors and Word Senses}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{Main Idea Recap}
+\begin{itemize}
+    \item Iterate through words
+    \item For each word, predict surronding word
+    \item Word2vec maximizes objective function by putting similar words closeby.
+    \item \textbf{Gradient Descent}: Optimize $J(\theta)$. Move in direction of negative gradient. 
+    \item \textbf{SGD}: Sample windows of data and update gradients. Much faster and practical 
+    \item With windows, we get very sparse matrices for word vectors.
+        \begin{itemize}
+            \item One window will contain much fewer words, hence a majority of words in the matrix will be 0.
+            \item Problem: Update only word vectors that we are seeing?
+            \item Solution: 2 fold
+                \begin{itemize}
+                    \item Sparse matrix operations i.e update only those rows with non-zero values in it
+                    \item Hash for word vectors
+                \end{itemize}
+        \end{itemize}
+\end{itemize}
+\section{Negative sampling}
+\begin{itemize}
+    \item Denominator is expensive to compute.
+    \item Try negative sampling to reduce computation.
+    \item \textbf{Idea}: Train binary logistic regressions for a true pair(center word and it's context words in the window) versus several noise pairs(center word paired with random word). 
+    \item $P(w) = \frac{U(w)^{\frac{3}{4}}}{Z}$
+    \item The power above reduces the chance of sampling more common words. This was obtained by trial and error i.e trained as a hyperparameter
+    \item Dot product and negating it is equal to taking $1 - P()$. Math trick.
+    \item SVD explained. Used to reduce the size of the matrix.
+    \item \textbf{Hacks}  
+        \begin{itemize}
+            \item Scale counts i.e  $min(X,t), with ~= 100$
+        \end{itemize}
+\end{itemize}
+\section{Encoding meaning}
+\begin{itemize}
+    \item Ratios of co-occurence probs can encode meaning components.
+    \item If dot product = log of co-occurence prob then vector diff = log(co-occurence probs)
+    \item Glove model is based on above method.
+        \[
+            J = \sum_{n=1}^{V} (X_{ij}) (w_{i}^{T}w_{j} + b_{i} + b_{j} - log(X_{ij})^{2})
+        .\] 
+    \item Advantages
+        \begin{itemize}
+            \item Fast training
+            \item Scalable to huge corpora
+            \item Good performance on small corpus and vectors as well
+        \end{itemize}
+\end{itemize}
+\section{Evaluation}
+\begin{itemize}
+    \item Intrinsic
+        \begin{itemize}
+            \item Evaluate on specific task
+            \item Fast compute
+            \item Not clear outputs on results for related tasks
+        \end{itemize}
+    \item Extrinsic
+        \begin{itemize}
+            \item Eval on real task
+            \item Long time to compute accracy
+            \item Difficult to diagnose results.
+        \end{itemize}
+\end{itemize}
+\end{document}
