@@ -80,6 +80,8 @@ def sgd(f, x0, step, iterations, postprocessing=None, useSaved=False,
         postprocessing = lambda x: x
 
     exploss = None
+    import pdb
+    pdb.set_trace()
 
     for iter in range(start_iter + 1, iterations + 1):
         # You might want to print the progress every few iterations.

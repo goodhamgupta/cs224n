@@ -1,0 +1,33 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, graphicx, float, blindtext} % for dummy text
+\graphicspath{ {./images/} }
+\title{Assignment 2: word2vec solutions}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{Understanding word2vec}
+\subsection{a. Derivation}
+From the question, we know the following:
+
+\[
+    J(\nu_c, o, \textbf{U}) = -logP(O=o | C=c) 
+.\] 
+We know cross entropy loss is given as:
+
+\[
+    -\sum_{w \epsilon Vocab} y_wlog(\hat{y}_w) = -log(\hat{y}_o)
+.\] 
+Since \textbf{y} is a one hot vector, it implies that y will be equal to 1 only when $i == o$. Hence, the LHS can be written as:
+
+\begin{multiline}
+- \sum_{w \epsilon Vocab} y_wlog(\hat{y}_w) \\
+= -[y_0log(y_0) + y_1log(y_1)+...+y_olog(y_o)+...+y_wlog(y_w)] \\
+= -y_olog(y_o) \\
+= -log(y_o) \\
+= -log(P(O=o|C=c))
+\end{multiline}
+
+\subsection{a. Derivation}
+\end{document}
