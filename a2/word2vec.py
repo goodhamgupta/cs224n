@@ -17,8 +17,8 @@ def sigmoid(x):
     """
 
     den = float(1 + np.exp(-x))
-    s = 1.0 / den
-    return s
+    answer = 1.0 / den
+    return answer
 
 
 def naiveSoftmaxLossAndGradient(centerWordVec, outsideWordIdx, outsideVectors, dataset):
@@ -238,41 +238,41 @@ def test_word2vec():
     #    "negSamplingLossAndGradient Gradient",
     #)
 
-    #print("\n=== Results ===")
-    #print("Skip-Gram with naiveSoftmaxLossAndGradient")
+    print("\n=== Results ===")
+    print("Skip-Gram with naiveSoftmaxLossAndGradient")
 
-    #print("Your Result:")
-    #print(
-    #    "Loss: {}\nGradient wrt Center Vectors (dJ/dV):\n {}\nGradient wrt Outside Vectors (dJ/dU):\n {}\n".format(
-    #        *skipgram(
-    #            "c",
-    #            3,
-    #            ["a", "b", "e", "d", "b", "c"],
-    #            dummy_tokens,
-    #            dummy_vectors[:5, :],
-    #            dummy_vectors[5:, :],
-    #            dataset,
-    #        )
-    #    )
-    #)
+    print("Your Result:")
+    print(
+        "Loss: {}\nGradient wrt Center Vectors (dJ/dV):\n {}\nGradient wrt Outside Vectors (dJ/dU):\n {}\n".format(
+            *skipgram(
+                "c",
+                3,
+                ["a", "b", "e", "d", "b", "c"],
+                dummy_tokens,
+                dummy_vectors[:5, :],
+                dummy_vectors[5:, :],
+                dataset,
+            )
+        )
+    )
 
-    #print("Expected Result: Value should approximate these:")
-    #print(
-    #    """Loss: 11.16610900153398
-    #Gradient wrt Center Vectors (dJ/dV):
-    # [[ 0.          0.          0.        ]
-    # [ 0.          0.          0.        ]
-    # [-1.26947339 -1.36873189  2.45158957]
-    # [ 0.          0.          0.        ]
-    # [ 0.          0.          0.        ]]
-    #Gradient wrt Outside Vectors (dJ/dU):
-    # [[-0.41045956  0.18834851  1.43272264]
-    # [ 0.38202831 -0.17530219 -1.33348241]
-    # [ 0.07009355 -0.03216399 -0.24466386]
-    # [ 0.09472154 -0.04346509 -0.33062865]
-    # [-0.13638384  0.06258276  0.47605228]]
-    #"""
-    #)
+    print("Expected Result: Value should approximate these:")
+    print(
+        """Loss: 11.16610900153398
+    Gradient wrt Center Vectors (dJ/dV):
+     [[ 0.          0.          0.        ]
+     [ 0.          0.          0.        ]
+     [-1.26947339 -1.36873189  2.45158957]
+     [ 0.          0.          0.        ]
+     [ 0.          0.          0.        ]]
+    Gradient wrt Outside Vectors (dJ/dU):
+     [[-0.41045956  0.18834851  1.43272264]
+     [ 0.38202831 -0.17530219 -1.33348241]
+     [ 0.07009355 -0.03216399 -0.24466386]
+     [ 0.09472154 -0.04346509 -0.33062865]
+     [-0.13638384  0.06258276  0.47605228]]
+    """
+    )
 
     #print("Skip-Gram with negSamplingLossAndGradient")
     #print("Your Result:")
