@@ -1,0 +1,27 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+StanfordSentiment	treebank.py	/^class StanfordSentiment:$/;"	c
+__init__	treebank.py	/^    def __init__(self, path=None, tablesize = 1000000):$/;"	m	class:StanfordSentiment
+allSentences	treebank.py	/^    def allSentences(self):$/;"	m	class:StanfordSentiment
+categorify	treebank.py	/^    def categorify(self, label):$/;"	m	class:StanfordSentiment
+dataset_split	treebank.py	/^    def dataset_split(self):$/;"	m	class:StanfordSentiment
+getDevSentences	treebank.py	/^    def getDevSentences(self):$/;"	m	class:StanfordSentiment
+getRandomContext	treebank.py	/^    def getRandomContext(self, C=5):$/;"	m	class:StanfordSentiment
+getRandomTrainSentence	treebank.py	/^    def getRandomTrainSentence(self):$/;"	m	class:StanfordSentiment
+getSplitSentences	treebank.py	/^    def getSplitSentences(self, split=0):$/;"	m	class:StanfordSentiment
+getTestSentences	treebank.py	/^    def getTestSentences(self):$/;"	m	class:StanfordSentiment
+getTrainSentences	treebank.py	/^    def getTrainSentences(self):$/;"	m	class:StanfordSentiment
+gradcheck_naive	gradcheck.py	/^def gradcheck_naive(f, x, gradientText):$/;"	f
+normalizeRows	utils.py	/^def normalizeRows(x):$/;"	f
+numSentences	treebank.py	/^    def numSentences(self):$/;"	m	class:StanfordSentiment
+rejectProb	treebank.py	/^    def rejectProb(self):$/;"	m	class:StanfordSentiment
+sampleTable	treebank.py	/^    def sampleTable(self):$/;"	m	class:StanfordSentiment
+sampleTokenIdx	treebank.py	/^    def sampleTokenIdx(self):$/;"	m	class:StanfordSentiment
+sent_labels	treebank.py	/^    def sent_labels(self):$/;"	m	class:StanfordSentiment
+sentences	treebank.py	/^    def sentences(self):$/;"	m	class:StanfordSentiment
+softmax	utils.py	/^def softmax(x):$/;"	f
+tokens	treebank.py	/^    def tokens(self):$/;"	m	class:StanfordSentiment

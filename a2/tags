@@ -1,0 +1,69 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+C	run.py	/^C = 5$/;"	v
+N	word2vec.py	/^    N = wordVectors.shape[0]$/;"	v
+SAVE_PARAMS_EVERY	sgd.py	/^SAVE_PARAMS_EVERY = 5000$/;"	v
+StanfordSentiment	utils/treebank.py	/^class StanfordSentiment:$/;"	c
+Understanding word2vec	handout/a2_answer.tex	/^\\maketitle$/;"	s
+__init__	utils/treebank.py	/^    def __init__(self, path=None, tablesize = 1000000):$/;"	m	class:StanfordSentiment
+a. Derivation	handout/a2_answer.tex	/^\\end{multiline}$/;"	u
+a. Derivation	handout/a2_answer.tex	/^\\section{Understanding word2vec}$/;"	u
+allSentences	utils/treebank.py	/^    def allSentences(self):$/;"	m	class:StanfordSentiment
+axis	run.py	/^    axis=0)$/;"	v
+batchsize	word2vec.py	/^    batchsize = 50$/;"	v
+bbox	run.py	/^        bbox=dict(facecolor='green', alpha=0.1))$/;"	v
+categorify	utils/treebank.py	/^    def categorify(self, label):$/;"	m	class:StanfordSentiment
+centerWordVectors	word2vec.py	/^    centerWordVectors = wordVectors[: int(N \/ 2), :]$/;"	v
+coord	run.py	/^coord = temp.dot(U[:,0:2])$/;"	v
+covariance	run.py	/^covariance = 1.0 \/ len(visualizeIdx) * temp.T.dot(temp)$/;"	v
+dataset	run.py	/^dataset = StanfordSentiment()$/;"	v
+dataset_split	utils/treebank.py	/^    def dataset_split(self):$/;"	m	class:StanfordSentiment
+dimVectors	run.py	/^dimVectors = 10$/;"	v
+dummySampleTokenIdx	word2vec.py	/^    def dummySampleTokenIdx():$/;"	f	function:test_word2vec
+getDevSentences	utils/treebank.py	/^    def getDevSentences(self):$/;"	m	class:StanfordSentiment
+getNegativeSamples	word2vec.py	/^def getNegativeSamples(outsideWordIdx, dataset, K):$/;"	f
+getRandomContext	utils/treebank.py	/^    def getRandomContext(self, C=5):$/;"	m	class:StanfordSentiment
+getRandomContext	word2vec.py	/^    def getRandomContext(C):$/;"	f	function:test_word2vec
+getRandomTrainSentence	utils/treebank.py	/^    def getRandomTrainSentence(self):$/;"	m	class:StanfordSentiment
+getSplitSentences	utils/treebank.py	/^    def getSplitSentences(self, split=0):$/;"	m	class:StanfordSentiment
+getTestSentences	utils/treebank.py	/^    def getTestSentences(self):$/;"	m	class:StanfordSentiment
+getTrainSentences	utils/treebank.py	/^    def getTrainSentences(self):$/;"	m	class:StanfordSentiment
+grad	word2vec.py	/^    grad = np.zeros(wordVectors.shape)$/;"	v
+gradCenterVecs	word2vec.py	/^    gradCenterVecs = np.zeros(centerWordVectors.shape)$/;"	v
+gradOutsideVectors	word2vec.py	/^    gradOutsideVectors = np.zeros(outsideVectors.shape)$/;"	v
+gradcheck_naive	utils/gradcheck.py	/^def gradcheck_naive(f, x, gradientText):$/;"	f
+load_saved_params	sgd.py	/^def load_saved_params():$/;"	f
+loss	word2vec.py	/^    loss = 0.0$/;"	v
+nWords	run.py	/^nWords = len(tokens)$/;"	v
+naiveSoftmaxLossAndGradient	word2vec.py	/^def naiveSoftmaxLossAndGradient(centerWordVec, outsideWordIdx, outsideVectors, dataset):$/;"	f
+negSamplingLossAndGradient	word2vec.py	/^def negSamplingLossAndGradient($/;"	f
+normalizeRows	utils/utils.py	/^def normalizeRows(x):$/;"	f
+numSentences	utils/treebank.py	/^    def numSentences(self):$/;"	m	class:StanfordSentiment
+outsideVectors	word2vec.py	/^    outsideVectors = wordVectors[int(N \/ 2) :, :]$/;"	v
+rejectProb	utils/treebank.py	/^    def rejectProb(self):$/;"	m	class:StanfordSentiment
+sampleTable	utils/treebank.py	/^    def sampleTable(self):$/;"	m	class:StanfordSentiment
+sampleTokenIdx	utils/treebank.py	/^    def sampleTokenIdx(self):$/;"	m	class:StanfordSentiment
+sanity_check	sgd.py	/^def sanity_check():$/;"	f
+save_params	sgd.py	/^def save_params(iter, params):$/;"	f
+sent_labels	utils/treebank.py	/^    def sent_labels(self):$/;"	m	class:StanfordSentiment
+sentences	utils/treebank.py	/^    def sentences(self):$/;"	m	class:StanfordSentiment
+sgd	sgd.py	/^def sgd(f, x0, step, iterations, postprocessing=None, useSaved=False,$/;"	f
+sigmoid	word2vec.py	/^def sigmoid(x):$/;"	f
+skipgram	word2vec.py	/^def skipgram($/;"	f
+softmax	utils/utils.py	/^def softmax(x):$/;"	f
+startTime	run.py	/^startTime=time.time()$/;"	v
+temp	run.py	/^temp = (visualizeVecs - np.mean(visualizeVecs, axis=0))$/;"	v
+test_word2vec	word2vec.py	/^def test_word2vec():$/;"	f
+tokens	run.py	/^tokens = dataset.tokens()$/;"	v
+tokens	utils/treebank.py	/^    def tokens(self):$/;"	m	class:StanfordSentiment
+visualizeIdx	run.py	/^visualizeIdx = [tokens[word] for word in visualizeWords]$/;"	v
+visualizeVecs	run.py	/^visualizeVecs = wordVectors[visualizeIdx, :]$/;"	v
+visualizeWords	run.py	/^visualizeWords = [$/;"	v
+windowSize1	word2vec.py	/^        windowSize1 = random.randint(1, windowSize)$/;"	v
+word2vec_sgd_wrapper	word2vec.py	/^def word2vec_sgd_wrapper($/;"	f
+wordVectors	run.py	/^wordVectors = np.concatenate($/;"	v
+wordVectors	run.py	/^wordVectors = sgd($/;"	v
