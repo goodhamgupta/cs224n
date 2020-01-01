@@ -16,7 +16,7 @@ def sigmoid(x):
     s -- sigmoid(x)
     """
 
-    den = float(1 + np.exp(-x))
+    den = 1 + np.exp(-x)
     answer = 1.0 / den
     return answer
 
@@ -94,10 +94,32 @@ def negSamplingLossAndGradient(
     # wish to match the autograder and receive points!
     negSampleWordIndices = getNegativeSamples(outsideWordIdx, dataset, K)
     indices = [outsideWordIdx] + negSampleWordIndices
-
     ### YOUR CODE HERE
 
     ### Please use your implementation of sigmoid in here.
+
+    gradOutsideVecs = np.zeros(outsideVectors.shape)
+    gradCenterVec = np.zeros(centerWordVec.shape)
+    loss = 0.0
+
+    o_vector = outsideVectors[outsideWordIdx]
+    neg_vector = outsideVectors[negSampleWordIndices]
+
+    value_outside = o_vector.dot(centerWordVec)
+    value_negative = neg_vector.dot(centerWordVec)
+
+    p_outside = sigmoid(value_outside)
+    p_negative = sigmoid(-value_negative)
+
+    loss = -(np.log(p_outside) + np.sum(np.log(p_negative)))
+    gradCenterVec = (p_outside - 1) * o_vector + np.sum(
+        (1 - p_negative)[:, np.newaxis] * neg_vector, axis=0
+    )
+
+    gradOutsideVecs = np.zeros_like(outsideVectors)
+    gradOutsideVecs[outsideWordIdx] = (p_outside - 1) * centerWordVec
+    for i, neg_index in enumerate(negSampleWordIndices):
+        gradOutsideVecs[neg_index] += (1 - p_negative[i]) * centerWordVec
 
     ### END YOUR CODE
 
@@ -119,8 +141,7 @@ def skipgram(
     Implement the skip-gram model in this function.
 
     Arguments:
-    currentCenterWord -- a string of the current center word
-    windowSize -- integer, context window size
+    currentCenterWord -- a string of the current center word windowSize -- integer, context window size
     outsideWords -- list of no more than 2*windowSize strings, the outside words
     word2Ind -- a dictionary that maps words to their indices in
               the word vector list
@@ -149,12 +170,13 @@ def skipgram(
     center_word_ind = word2Ind.get(currentCenterWord)
     centerWordVec = np.asarray(centerWordVectors[center_word_ind])
     for outsideWord in outsideWords:
-            outsideWordIdx = word2Ind[outsideWord]
-            (l, gradCenter, gradOutside) = word2vecLossAndGradient(
-                centerWordVec, outsideWordIdx, outsideVectors, dataset)
-            loss += l
-            gradCenterVecs[center_word_ind] += gradCenter
-            gradOutsideVectors += gradOutside
+        outsideWordIdx = word2Ind[outsideWord]
+        (l, gradCenter, gradOutside) = word2vecLossAndGradient(
+            centerWordVec, outsideWordIdx, outsideVectors, dataset
+        )
+        loss += l
+        gradCenterVecs[center_word_ind] += gradCenter
+        gradOutsideVectors += gradOutside
     return loss, gradCenterVecs, gradOutsideVectors
 
 
@@ -229,14 +251,14 @@ def test_word2vec():
         "naiveSoftmaxLossAndGradient Gradient",
     )
 
-    #print("==== Gradient check for skip-gram with negSamplingLossAndGradient ====")
-    #gradcheck_naive(
-    #    lambda vec: word2vec_sgd_wrapper(
-    #        skipgram, dummy_tokens, vec, dataset, 5, negSamplingLossAndGradient
-    #    ),
-    #    dummy_vectors,
-    #    "negSamplingLossAndGradient Gradient",
-    #)
+    print("==== Gradient check for skip-gram with negSamplingLossAndGradient ====")
+    gradcheck_naive(
+        lambda vec: word2vec_sgd_wrapper(
+            skipgram, dummy_tokens, vec, dataset, 5, negSamplingLossAndGradient
+        ),
+        dummy_vectors,
+        "negSamplingLossAndGradient Gradient",
+    )
 
     print("\n=== Results ===")
     print("Skip-Gram with naiveSoftmaxLossAndGradient")
@@ -274,39 +296,39 @@ def test_word2vec():
     """
     )
 
-    #print("Skip-Gram with negSamplingLossAndGradient")
-    #print("Your Result:")
-    #print(
-    #    "Loss: {}\nGradient wrt Center Vectors (dJ/dV):\n {}\n Gradient wrt Outside Vectors (dJ/dU):\n {}\n".format(
-    #        *skipgram(
-    #            "c",
-    #            1,
-    #            ["a", "b"],
-    #            dummy_tokens,
-    #            dummy_vectors[:5, :],
-    #            dummy_vectors[5:, :],
-    #            dataset,
-    #            negSamplingLossAndGradient,
-    #        )
-    #    )
-    #)
-    #print("Expected Result: Value should approximate these:")
-    #print(
-    #    """Loss: 16.15119285363322
-    #Gradient wrt Center Vectors (dJ/dV):
-    # [[ 0.          0.          0.        ]
-    # [ 0.          0.          0.        ]
-    # [-4.54650789 -1.85942252  0.76397441]
-    # [ 0.          0.          0.        ]
-    # [ 0.          0.          0.        ]]
-    # Gradient wrt Outside Vectors (dJ/dU):
-    # [[-0.69148188  0.31730185  2.41364029]
-    # [-0.22716495  0.10423969  0.79292674]
-    # [-0.45528438  0.20891737  1.58918512]
-    # [-0.31602611  0.14501561  1.10309954]
-    # [-0.80620296  0.36994417  2.81407799]]
-    #"""
-    #)
+    print("Skip-Gram with negSamplingLossAndGradient")
+    print("Your Result:")
+    print(
+        "Loss: {}\nGradient wrt Center Vectors (dJ/dV):\n {}\n Gradient wrt Outside Vectors (dJ/dU):\n {}\n".format(
+            *skipgram(
+                "c",
+                1,
+                ["a", "b"],
+                dummy_tokens,
+                dummy_vectors[:5, :],
+                dummy_vectors[5:, :],
+                dataset,
+                negSamplingLossAndGradient,
+            )
+        )
+    )
+    print("Expected Result: Value should approximate these:")
+    print(
+        """Loss: 16.15119285363322
+    Gradient wrt Center Vectors (dJ/dV):
+     [[ 0.          0.          0.        ]
+     [ 0.          0.          0.        ]
+     [-4.54650789 -1.85942252  0.76397441]
+     [ 0.          0.          0.        ]
+     [ 0.          0.          0.        ]]
+     Gradient wrt Outside Vectors (dJ/dU):
+     [[-0.69148188  0.31730185  2.41364029]
+     [-0.22716495  0.10423969  0.79292674]
+     [-0.45528438  0.20891737  1.58918512]
+     [-0.31602611  0.14501561  1.10309954]
+     [-0.80620296  0.36994417  2.81407799]]
+    """
+    )
 
 
 if __name__ == "__main__":
