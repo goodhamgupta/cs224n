@@ -283,3 +283,5 @@ TSWLatexianTemp*
 *.gz
 *.gzip
 *.zip
+*.npy
+*.pickle
