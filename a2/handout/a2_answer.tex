@@ -21,13 +21,15 @@ We know cross entropy loss is given as:
 .\] 
 Since \textbf{y} is a one hot vector, it implies that y will be equal to 1 only when $i == o$. Hence, the LHS can be written as:
 
-\begin{multiline}
-- \sum_{w \epsilon Vocab} y_wlog(\hat{y}_w) \\
-= -[y_0log(y_0) + y_1log(y_1)+...+y_olog(y_o)+...+y_wlog(y_w)] \\
-= -y_olog(y_o) \\
-= -log(y_o) \\
-= -log(P(O=o|C=c))
-\end{multiline}
+\begin{equation}
+\begin{split}
+& - \sum_{w \epsilon Vocab} y_wlog(\hat{y}_w) \\
+& = -[y_0log(y_0) + y_1log(y_1)+...+y_olog(y_o)+...+y_wlog(y_w)] \\
+& = -y_olog(y_o) \\
+& = -log(y_o) \\
+& = -log(P(O=o|C=c))
+\end{split}
+\end{equation}
 
 \subsection{a. Derivation}
 \end{document}
