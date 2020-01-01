@@ -8,7 +8,7 @@
 \begin{document}
 \maketitle
 \section{Understanding word2vec}
-\subsection{a. Derivation}
+\subsection{Derivation}
 From the question, we know the following:
 
 \[
@@ -31,5 +31,20 @@ Since \textbf{y} is a one hot vector, it implies that y will be equal to 1 only 
 \end{split}
 \end{equation}
 
-\subsection{a. Derivation}
+\subsection{Derivation of $J_ {\text{naive softmax}}$ wrt $\nu_c$}
+\begin{equation}
+\begin{split}
+    & CE(y, \hat{y})\\
+    & \hat{y} = softmax(\theta) \frac{\partial J}{\partial \theta} = (\hat{y} - y)^T \\
+\end{split}
+\end{equation}
+Using chain rule, we can solve this as follows:
+\begin{equation}
+\begin{split}
+    \begin{aligned} \frac{\partial J}{\partial v_c} &= \frac{\partial J}{\partial \theta} \frac{\partial \theta}{\partial v_c} \ &= (\hat{y} - y) \frac{\partial U^Tv_c}{\partial v_c} \ &= U^T(\hat{y} - y)^T \end{aligned}
+\end{split}
+\end{equation}
+
+\subsection{Derivation of $J_ {\text{naive softmax}}$ wrt outside vectors $u_w$}
+
 \end{document}

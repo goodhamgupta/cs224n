@@ -278,3 +278,8 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+# GZ files
+*.gz
+*.gzip
+*.zip
