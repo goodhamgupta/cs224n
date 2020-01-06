@@ -1,0 +1,83 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, graphicx, float, blindtext} % for dummy text
+\graphicspath{ {./images/} }
+\title{Backpropogation}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+\begin{itemize}
+    \item It is the process of finding the effect of the inputs on the outputs. Specifically, how does a small change in the input affect the output from the network?
+\end{itemize}
+\section{Computing gradients}
+\begin{itemize}
+    \item Organize the nodes in topological fashion i.e graph will go from input nodes to output nodes.
+    \item Evaluate the nodes in order to find the final backprop solution.
+    \item \textbf{Advantage}: Removes the need to store duplicate computations. 
+\end{itemize}
+\section{Automatic Differentiation}
+\begin{itemize}
+    \item Don't do the math by hand. Let computers run backprop.
+    \item Each node knows how to calculate it's output and gradiesnt wrt its inputs.
+    \item In TF/Pytorch, write forward and backprop formula on your own. But if written, does everything else and runs backprop.
+\end{itemize}
+\section{Numeric Gradient}
+\begin{itemize}
+    \item Check gradients using numeric gradients.
+    \item Check value for input and output when you change the value of $h$ by a very small amount. This is the same as rise over run used to compute derivatives.
+\end{itemize}
+\section{TLDR}
+\begin{itemize}
+    \item \textbf{Backprop}: [downstream gradient] = [upstream  gradient] x [local gradient] 
+\end{itemize}
+\section{Important concepts}
+\subsection{Regularization}
+\begin{itemize}
+    \item Prevers overfitting when we have many features.
+    \item Very important for DL models because of the number of parameters.
+\end{itemize}
+\subsection{Vectorization}
+\begin{itemize}
+    \item Needed to increase speed of operations
+    \item Orders of magnitude faster on CPU as well as GPU.
+    \item Matrices are the way to go.
+\end{itemize}
+\subsection{Non linearities}
+\begin{itemize}
+    \item Logistic
+    \item Tanh
+    \item Hard Tanh: -1, x and +1 only.Linear function in between.
+    \item ReLU: max(z, 0)
+    \item Leaky ReLU: y = 0.01x
+\end{itemize}
+\subsection{Parameter intialization}
+\begin{itemize}
+    \item Small random values as intial values.
+    \item Start biases at 0 mostly
+    \item Xavier intialization
+    \begin{equation}
+    \begin{split}
+        Var(W_i) = \frac{2}{n_{in} + n_{out}} 
+    \end{split}
+    \end{equation}
+\end{itemize}
+\subsection{Optimizers}
+\begin{itemize}
+    \item Plain SGD is most cases but need to hand tune learning rate
+    \item Better to use adaptive oprimizers that scale parameters based on the accumulated gradient.
+    \begin{itemize}
+        \item Adagrad
+        \item RMSProp
+        \item Adam
+        \item SparseAdam
+    \end{itemize}
+\end{itemize}
+\subsection{Learning Rates}
+\begin{itemize}
+    \item Use constant learning rate i.e $1e^{-4}$
+    \item Reduce the gradient by half every k epochs i.e $lr = lr_0e^{-kt}$ for epoch  $t$.
+    \item Cyclic learning rates as implemented in fast.ai
+\end{itemize}
+\end{document}
