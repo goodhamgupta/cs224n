@@ -47,4 +47,63 @@
     \item Syntactic structure between lexical terms (normally arrows called \textit{depedencies}) 
     \item Arrows have the relationship type between the two words. They connect \textit{head} and the \textit{dependant} of the dependency
 \end{itemize}
+\section{Depedency conditioning preferences}
+\begin{itemize}
+    \item Bilexical affinities $\implies$ discussion to issues is possible
+    \item Depedency distance $\implies$ mostly with nearby words
+    \item Intervening material $\implies$ 
+    \item Valency of heads
+\end{itemize}
+\subsection{How to do it?}
+\begin{itemize}
+    \item Choose for each word what the other word(including the ROOT)is it a dependant of
+    \item Only one word is a dependent of the ROOT
+    \item No cycles i.e A -> B, B -> A
+\end{itemize}
+\section{How to do dependency parsing}
+\begin{itemize}
+    \item \textbf{Dynamic Programming}  $O(n^3)$ 
+    \item \textbf{Graph algorithms} Create a minimum spanning tree 
+    \item \textbf{Constraint satisfaction} Apply constraints to edges. Maybe this could be done with constraint programming? 
+    \item \textbf{Transition-based or deterministic dependecy parsing}: Use greedy algo. Most used.
+\end{itemize}
+\subsection{Greedy based depedency parsing}
+\begin{itemize}
+    \item Sequence of bottom-up actions
+    \item Has the following parts:
+    \begin{itemize}
+        \item stack $\sigma$ written with top to the right. Starts with root symbol
+        \item buffer $ \beta$ written with top to the left. Starts with input sentence
+        \item Finish if $\sigma$ = $\beta$
+    \end{itemize}
+    \item For this algo, you would need to explore all possible paths before finding the optimal path. Not very efficient
+\end{itemize}
+\subsection{MaltParser}
+\begin{itemize}
+    \item Use maseen learningggg lol
+    \item Use a discrimative classifier to predict next action to take.
+    \begin{itemize}
+        \item Max 3 untyped choices: |R| x 2 + 1
+        \item Features: top of stack word, POS, first buffer word, POS
+    \end{itemize}
+    \item Super fast linear parsing with mad performance
+    \item Just below current SOTA
+\end{itemize}
+\subsection{Evaluation of depedency parsers}
+\begin{itemize}
+    \item Compare with labelled data
+\end{itemize}
+\section{Neural depedency parsers}
+\begin{itemize}
+    \item Problems with previous methods
+    \begin{itemize}
+        \item Conventional method has sparse matrices
+        \item incomplete
+        \item Expensive
+    \end{itemize}
+    \item Instead of specifying the sparse matrix, train neural network to learn the representation automatically
+    \item Represent each word as a vector of dimension $d$
+    \item Also label POS and dependency labels as vectors of dimension $d$
+    \item greater accuracy and speed comparsed to maltparser
+\end{itemize}
 \end{document}
