@@ -7,8 +7,7 @@ __pycache__/*
 *.lof
 *.log
 *.lot
-*.fls
-*.out
+*.fls *.out
 *.toc
 *.fmt
 *.fot
@@ -285,3 +284,4 @@ TSWLatexianTemp*
 *.zip
 *.npy
 *.pickle
+random/datasets/*

@@ -17,6 +17,29 @@
     \item Predict what words come next
     \item Computes probability distribution of next work $x^{t+1}$ given previous words $x^1,x^2...x^t$  where $x$ is in the vocab $V$.
     \item Assign prob to a piece of text
+    \begin{equation}
+    \begin{split}
+        \prod_{t=1}^{T} P(x^t | x(t-1),...,x^1)
+    \end{split}
+    \end{equation}
 \end{itemize}
+\subsection{N-gram language model}
+\begin{itemize}
+    \item \textbf{n-gram} Chunk of n consecutive words 
+    \item Collect stats about how frequent different n-grams are, and use this to predict the next word.
+    \item \textbf{Assumption}: $x^{t+1}$ depends only on preceding $n-1$ words 
+    \item To get the probabilities, we will count them from a large corpus i.e \textit{statistical approximation} 
+\end{itemize}
+\subsection{Problems}
+\begin{itemize}
+    \item Throws away too much context
+    \item Sparsity. If the numerator is 0, then the chance of a valid word occuring is not possible, which is incorrect. Just because the n-words were not seen in the dataset does not mean that it is not a valid concept
+    \item Solution? Smoothing. Add a small amount of probability $delta$ for every word in the vocabulary
+    \item If denominator is 0, cannot calculate the probability at all.
+    \item Solution? If you cannot find n words in the dataset, backoff and just use the last n-1 or n-2 words instead. This is called \textbf{backoff}  
+    \item Sparsity problems increase with increase in $n$
+    \item \textbf{Storage}: Size of model increases as the n-grams increase
+\end{itemize}
+
 
 \end{document}
