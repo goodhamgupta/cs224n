@@ -41,5 +41,28 @@
     \item \textbf{Storage}: Size of model increases as the n-grams increase
 \end{itemize}
 
+\section{Fixed window neural language model}
+\begin{itemize}
+    \item Use neural network for word prediction
+    \item Represent window of words as a one-hot encoding
+    \item For each word, obtain the word embedding from a model such as word2vec
+    \item Pass this to a hidden layer and multiply it with weight matrix containing non-linearity and a smaller size
+    \item Pass output from hidden layer to softmax to get probabilities. Softmax output will be of entire vocab size i.e $V$.
+    \item \textbf{Advantages} 
+    \begin{itemize}
+        \item No sparsity problem
+        \item Don't need to store all n-grams you've seen.
+    \end{itemize}
+    \item \textbf{Problems} 
+    \begin{itemize}
+        \item Fixed window will always be small. Increasing it will increase size of $W$, leading to more problems
+        \item No symmetry i.e because of matrix multiplication, each word vector is multiplied only by specified column of wight vectors. So you are learning something specific for each word rather than learning a general function.
+        \item Need neural network to process strings of arbitary length
+    \end{itemize}
+\end{itemize}
+\section{RNN}
+\begin{itemize}
+    \item Recurrent neural network
+\end{itemize}
 
 \end{document}
