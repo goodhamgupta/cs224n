@@ -63,6 +63,64 @@
 \section{RNN}
 \begin{itemize}
     \item Recurrent neural network
+    \item Any length input sequence
+    \item Sequence of hidden states. Each state computed based on previous hidden state and the current input. Also called \textit{timesteps} 
+    \item \textbf{Same weight matrix is applied at each step}. This helps learn a general function.  
+    \item Hidden state computed as:
+    \begin{equation}
+    \begin{split}
+        h^t = \sigma(W_hh^{t-1} + W_ee^t + b_1)
+    \end{split}
+    \end{equation}
+    \item Initial hidden state can be either vector of 0's or any arbirary vector.
+    \item Final output will have softmax layer. Output size will be of size vocab $V$
+    \item \textbf{Advantages}
+    \begin{itemize}
+        \item Any length of input
+        \item Computation at $t$ can use info from previous steps
+        \item Symmetry in weights application i.e learns a general function
+    \end{itemize}
+    \item \textbf{Disadvantages} 
+    \begin{itemize}
+        \item Recurrent computation is slow
+        \item In practice, info from many steps back is difficult to retain
+    \end{itemize}
+    \item Training
+        \begin{itemize}
+            \item Obtain big corpus
+            \item  Feed into RNN-LM. Compute $\hat{y}$ for every step $y$ 
+            \item Loss function is cross entropy between prediced next word and the true next word $y^t$
+                $J(\theta) = -log(\hat{y}^t_{x_{t+1}})$
+        \end{itemize}
+    \item Computing gradient and loss over entire corpus is expensive. In practice, use input as a sentece or collection of senteces
+    \item Apply \textit{Stochastic gradient descent} and compute everything in batches
+    \item Backpro in RNN will be the sum of the gradient wrt each time it appears. Words using multivariable chain rule
+    \begin{equation}
+    \begin{split}
+        \frac{\delta J^t}{\delta W_h} = \sum_{u=1}^{t} \delta J^\frac{t}{\delta W_h}
+    \end{split}
+    \end{equation}
+    \item Accumulate the gradients at each timestep. Also called \textit{backpropogation through time} 
+    \item Generating text will be the same as repeated sampling used in the n-gram model
 \end{itemize}
-
+\subsection{Evaluation LM}
+\begin{itemize}
+    \item \textbf{Perplexity}: Inverse probability of the corpus given the language model  
+    \begin{equation}
+    \begin{split}
+        perplexity = \prod_{t=1}^T \bigg( \frac{1}{P_{LM}(x^{t+1}|x^t,...,x^1}\bigg )^{\frac{1}{T}}
+        perplexity = exp(J(\theta))
+    \end{split}
+    \end{equation}
+\end{itemize}
+\section{Recap}
+\begin{itemize}
+    \item LM predicts next word
+    \item RNN Seq input of any length, apply same weights and produce output
+    \item RNN to build LM
+    \item Example: RNN for POS tagging task
+    \item RNN can also be used as a general purpose encoder model. Can be used for machine translation, question answering, etc.
+    \item \textit{Vanilla RNN} = RNN in this lecture 
+    \item Multilayer RNN possible
+\end{itemize}
 \end{document}
