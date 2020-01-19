@@ -285,3 +285,4 @@ TSWLatexianTemp*
 *.npy
 *.pickle
 random/datasets/*
+data/*
