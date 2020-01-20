@@ -1,0 +1,38 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, graphicx, float, blindtext} % for dummy text
+\graphicspath{ {./images/} }
+\title{Suggested Readings}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{Incrementality in Deterministic Dependency Parsing}
+\begin{itemize}
+    \item Why incrementality?
+        \begin{itemize}
+            \item Practical and can be used in real time applications
+            \item Theoritical i.e human parsing is largely incremental, so it makes sense to try it out in the text as well.
+            \item \textbf{Core aim}: Build a complete syntactic analysis for the input string
+            \item Dependencies can be done by labelling each word in the sentence by POS tags and the arcs between each of these words with their gramatical function
+            \item Parser configs represented by triples (S, I, A). S = Stack, I = List of input tokets, A = current arc relation in dependency graph
+            \item \textbf{Incremental}: For bottom up parsers, idea is to have a term related to graph at all times. Number of elements in stack is not greater than 2 
+            \item \textbf{Arc eager parsing}: Do both bottom-up and top-down parsing. Left dependents bottom-up and right dependents top-down 
+            \item In standard algorithm, Right-redice is bottom-up approach i.e it is a Right-Arc + Reduce function.
+            \item \textbf{Incremental for arc parsing}: Enforce that the graph should be connected at all times, since two tokens need not be present on the stack to create the dependency  
+            \item \textit{Top Down parsing}: Head is attached to dependant before dependent is attached to its other dependents 
+            \item \textit{Bottom up parsing}: Dependent is attached to its head before head is attached to its parent's head.
+            \item \textbf{Performance}: Evaluation based on arc-eager parsing with memory-based classifier for predicting next transition
+            \item 90\% of all confihs ave no more than three connected components on the stack.
+            \item Sentences that violate the incremental parsing property are because:
+                \begin{itemize}
+                    \item Can't be parse into a well formed tree i.e single projective dependency tree
+                \end{itemize}
+        \end{itemize}
+\end{itemize}
+\section{Conclusion}
+\begin{itemize}
+    \item This paper shows that strict incremental parsing is not acheivble with the framework presented.
+    \item HOWEVER, arc-eager parsing algorithm is optimial for incremental parsing.
+\end{itemize}
+\end{document}

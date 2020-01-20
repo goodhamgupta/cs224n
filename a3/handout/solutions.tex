@@ -1,6 +1,6 @@
 \documentclass[a4paper]{article}
 
-\usepackage{amsmath, graphicx, float, blindtext} % for dummy text
+\usepackage{amsmath, graphicx, float, blindtext}
 \graphicspath{ {./images/} }
 \title{Dependency Parsing}
 \author{Shubham Gupta}
@@ -31,5 +31,25 @@
                     \item average out the value across all dropout masks. This translates to multiplying the weights at each layer while predicting with the probability $p_{drop}$. Cheap approximation to the integral
                 \end{itemize}
         \end{itemize}
+\end{itemize}
+\section{Neural Transition Based Dependency Parsing}
+\subsection{Dependency parser}
+\begin{itemize}
+    \begin{table}[htpb]
+        \centering
+        \caption{Dependency parser}
+        \label{tab:label}
+        \begin{tabular}{c|c|c|c}
+            \hline
+            Stack & Buffer & New dependency & Transition
+            \\ {[ROOT]} & {[I, parsed, this, sentence, correctly]} & & Initial configuration
+            \\ {[ROOT, I]} & {[parsed, this, sentence, correctly]} & & SHIFT
+            \\ {[ROOT, I, parsed]} & {[this, sentence, correctly]} & & SHIFT
+            \\ {[ROOT, parsed]} & {[this, sentence, correctly]} & parsed $\rightarrow$ I & LEFT-ARC
+            \\ {[ROOT, parsed, this]} & {[sentence, correctly]} & & SHIFT
+            \\ {[ROOT, parsed]} & {[sentence, correctly]} & parsed $\rightarrow$ I, this $\rightarrow$ parsed & RIGHT-ARC
+        \end{tabular}
+    \end{table}
+\item For the given transitions SHIFT,  LEFT-ARC and RIGHT-ARC, the dependency parser is gurranted to converge at most $2n$ steps, for a string of length $n$.
 \end{itemize}
 \end{document}
