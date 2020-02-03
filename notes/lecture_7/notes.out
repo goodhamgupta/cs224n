@@ -1,2 +1,4 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Vanishing gradient problem}{}% 2
+\BOOKMARK [1][-]{section.3}{Exploding gradients}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Fix vanishing gradients problem}{section.3}% 4

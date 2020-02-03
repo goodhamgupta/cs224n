@@ -16,5 +16,49 @@
 \section{Vanishing gradient problem}
 \begin{itemize}
     \item Occurs in RNN
+    \item Small gradient in each step reduces the overall gradient signal as it backpropogates further.
+    \item Why is it a problem?
+    \begin{itemize}
+        \item Gradient signal from faraway is lost because it's much smaller than gradient signal from closeby.
+        \item Model weights are only updated with respect to \textit{near effects}, not long term effects.
+        \item \textit{TLDR}: Model will not learn the parameters well and hence will have weak predictablity.
+        \item Gradient is the effect of the past on the future.
+        \item If it doesnt learn the parameters, then either
+        \begin{itemize}
+            \item No dependency at t and t+1
+            \item Or it learns wrong parameters to capture true dep between $t$ and $t+1$
+        \end{itemize}
+        \item Syntactic recency: Pays attention to syntax of sentence i.e longer language dependency
+        \item Sequential recency: Pays attention to things that only happen recently
+        \item Due to vanishing gradient problem, RNN learns sequency recency more.
+    \end{itemize}
+\end{itemize}
+\section{Exploding gradients}
+\begin{itemize}
+    \item Gradient too big $\implies$ SGD update too big
+        $ \theta^{new} = \theta^{old} - \alpha \delta_{\theta}J(\theta $
+    \item Solution: \textbf{Gradient clipping} 
+    \item If norm of gradient is above threshold, normalize gradient before applying SGD update
+    \item Normalize gradient by setting max and min thresholds. This will prevent gradient from chaging drastically, thereby avoiding exploding gradiesnts problem.
+\end{itemize}
+\subsection{Fix vanishing gradients problem}
+\begin{itemize}
+    \item Seperate memory for longer dependencies
+    \item Solution: \textbf{LSTM}  
+    \item At step $t$, there is hidden state $h^t$ and cell state $c^t$
+     \item Can erase, read and write cell state
+    \item Gates control whether they will write, read, etc.
+    \item Gates are also vectors
+    \item Gates are dynamic. Diff on each step $t$.
+    \item Gates are as follows:
+    \begin{itemize}
+        \item \textit{Forget gate}: $\sigma(W_fh^{t-1} + U_fx^t + b_f)$
+        \item \textit{Input gate}: $\sigma(W_ih^{t-1} + U_fx^t + b_i)$
+        \item \textit{Output gate}: $\sigma(W_oh^{t-1} + U_fx^t + b_o)$
+    \end{itemize}
+    \item New cell content: $c^t = tanh(W_ch^{t-1} + U_fx^t + b_c)$
+    \item Forget some info using the forget gate
+    \item Hidden state read output from some cell
+    \item Soles vanishing gradient problem
 \end{itemize}
 \end{document}
