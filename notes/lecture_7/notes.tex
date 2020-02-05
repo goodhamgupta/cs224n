@@ -59,6 +59,68 @@
     \item New cell content: $c^t = tanh(W_ch^{t-1} + U_fx^t + b_c)$
     \item Forget some info using the forget gate
     \item Hidden state read output from some cell
-    \item Soles vanishing gradient problem
+    \item Solves vanishing gradient problem
+    \begin{itemize}
+        \item Preserves info over many timesteps. If forget gate is set to remember everything on every $t$, the info in the cell is preserved indefinitely.
+        \item Harder for RNN to do the same
+    \end{itemize}
+\end{itemize}
+\section{Gated Recurrent Units}
+\begin{itemize}
+    \item Keep strengths of LSTM but remove complexity
+    \item Input $x^t$ and hidden state $h^t$ (no cell state)
+    \item Update gate and reset gate
+    \begin{equation}
+    \begin{split}
+        u^t = \sigma(W_uh^{t-1} + U_ux^t + b_u)
+        r^t = \sigma(W_rh^{t-1} + U_rx^t + b_r)
+    \end{split}
+    \end{equation}
+    \item How does it solve vanishing gradient?
+    \begin{itemize}
+        \item Easier to retain long term info
+        \item If $u^t$ is 0, then $h^t$ is kept the same at every step.
+    \end{itemize}
+\end{itemize}
+\section{LSTM vs GRU}
+\begin{itemize}
+    \item LSTM and GRU most widely used
+    \item GRU is \textit{quicker to compute} 
+    \item No other pros/cons
+    \item LSTM is \textbf{good default choice }  
+    \item Start with LSTM, switch to GRU for faster training
+\end{itemize}
+\section{Gradient problems}
+\begin{itemize}
+    \item Occurs in almost all deep networks
+    \item Solution: Add some direct connections in the network
+    \item Example: Residual connections or skip-connections
+    \item Makes deep networks easier to train
+    \item \textbf{DenseNet}: Directly connect everything to everything 
+    \item \textbf{HighwayNet}: Identity connection vs transformation layer is controlled by a dynamic gate
+\end{itemize}
+\section{Bidirectional RNN}
+\begin{itemize}
+    \item Take information from L-R AND R-L
+    \item Forward and backward RNN. Concatenate both outputs.
+    \item Train both RNN together
+    \item Can be used \textbf{only if we have the entire input sequence}  
+    \item cant be used to do language modelling
+\end{itemize}
+\section{Multi layer rnn}
+\begin{itemize}
+    \item RNN are already deep on one dim(unroll timesteps)
+    \item Apply multiple RNN
+    \item Compute more complex representations
+    \item Also called \textbf{Stacked RNN}  
+    \item Perform well
+    \item Not as deep as normal cnn. Expensive to compute
+\end{itemize}
+\section{Conclusion}
+\begin{itemize}
+    \item LSTM are powerful but GRU is faster
+    \item Clip your gradients
+    \item Use bidirectionality when possible
+    \item Multi layer RNN are powerful. Use it with skip connections and lots of compute lol
 \end{itemize}
 \end{document}

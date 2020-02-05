@@ -2,3 +2,9 @@
 \BOOKMARK [1][-]{section.2}{Vanishing gradient problem}{}% 2
 \BOOKMARK [1][-]{section.3}{Exploding gradients}{}% 3
 \BOOKMARK [2][-]{subsection.3.1}{Fix vanishing gradients problem}{section.3}% 4
+\BOOKMARK [1][-]{section.4}{Gated Recurrent Units}{}% 5
+\BOOKMARK [1][-]{section.5}{LSTM vs GRU}{}% 6
+\BOOKMARK [1][-]{section.6}{Gradient problems}{}% 7
+\BOOKMARK [1][-]{section.7}{Bidirectional RNN}{}% 8
+\BOOKMARK [1][-]{section.8}{Multi layer rnn}{}% 9
+\BOOKMARK [1][-]{section.9}{Conclusion}{}% 10
