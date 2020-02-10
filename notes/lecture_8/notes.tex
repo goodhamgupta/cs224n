@@ -11,6 +11,85 @@
 \begin{itemize}
     \item SNT and NMT
     \item NMT: Translate language with one neural network
+    \item Train seq2seq to translate from one language to another.
+    \item Due to this, there will be $N^2$ translation systems.
+\end{itemize}
+
+\section{Greedy decoding}
+\begin{itemize}
+    \item Choose best word and feed to next step during generation.
+    \item \textbf{Problem}:  
+    \begin{itemize}
+        \item No way to undo decisions
+    \end{itemize}
+    \item How to fix?
+    \item Exhaustive search is not good. Wayyyy Too expensive.
+\end{itemize}
+\section{Bean Search}
+\begin{itemize}
+    \item At each step, keep track of $k$ most probable partial tranlations. These are called \textit{hypotheses}. $k$ is the beam size 
+    \item Score of hypothesis is log probability
+    \item These scores are negative because of log probability
+    \item Higher score is better
+    \item Not guaranteed to find optimal solution
+    \item Moarrr efficient though
+    \item At each stage, store $k$ most probable translations. Compute log prob. Pick the top candidate. Repeat process till the end. Once reached the end, go back in the tree to show the full translation
+    \item \textbf{Stopping criterion}  
+    \begin{itemize}
+        \item Each hypothesis can produce <END> token at different timesteps
+        \item Remove these hypythesis and continue exploring others
+        \item Iterate till reach timestep $T$ 
+        \item OR have atleast $n$ completed hypothesis.
+        \item Both these metrics are predefined
+        \item How to select top hypothesis from list of hypothesis?
+        \begin{itemize}
+            \item You'll end up chosing shorter one.
+            \item Longer hypothesis have lower scores
+            \item Solution: Normalize by length of each hypothesis
+        \end{itemize}
+    \end{itemize}
+\subsection{Advanrages of NMT}
+\begin{itemize}
+    \item Better performance
+    \begin{itemize}
+        \item More fluent
+        \item Better use of context
+        \item Better use of phrase similarities
+    \end{itemize}
+    \item Single NN optimized end-to-end
+    \item Less human engineering effort
+    \begin{itemize}
+        \item No feature engineering
+        \item Same method for all language pairs
+    \end{itemize}
+\end{itemize}
+\subsection{Disadvatanges of NMT}
+\begin{itemize}
+    \item Less intrepretable
+    \item Difficult to control. Can't specify rules and guidelines for translation
+\end{itemize}
+\section{Evalualte machine translation}
+\begin{itemize}
+    \item \textbf{BLEU} Bilingual Evaluation Understudy 
+    \item Compare machine-written translation to several human-written translations and compute similarity score based on:
+    \begin{itemize}
+        \item n-gram precision
+        \item AND Penalty for too-short system translations aka brevity penalty
+    \end{itemize}
+    \item Useful but imperfect
+\end{itemize}
+\section{Attention}
+\begin{itemize}
+    \item Why do we need it?
+    \begin{itemize}
+        \item Information bottleneck: Forcing all information to be captured in single vector. Problems with long sequences
+        \item On each step of the decoder, use direct connection to encoder to focus on a part of the sequence
+    \end{itemize}
+    \item attention score: Dot product between decoder state and encoder state at any time step $t$ 
+    \item Apply softmax to the attention scores to get prob distribution
+    \item Use it to product \textit{Attention output} 
+    \item Use it to influence output of the word
+\end{itemize}
 \end{itemize}
 
 \end{document}
