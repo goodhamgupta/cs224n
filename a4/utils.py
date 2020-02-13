@@ -30,11 +30,11 @@ def pad_sents(sents, pad_token):
 
     ### YOUR CODE HERE (~6 Lines)
     lengths = [len(sentence) for sentence in sents]
-    max_len = max(lenghts)
+    max_len = max(lengths)
     for sent_len, sentence in zip(lengths, sents):
         count = max_len - sent_len
-        updated_sentence = sentence + (pad_token * count)
-        sents_padded.append(updated_sentence)
+        sentence.extend([pad_token] * count)
+        sents_padded.append(sentence)
 
     ### END YOUR CODE
 

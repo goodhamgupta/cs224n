@@ -75,25 +75,30 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Dropout
 
         self.encoder = torch.nn.LSTM(
-            input_size=self.embed_size,
+            input_size=embed_size,
             hidden_size=self.hidden_size,
             bias=True,
             bidirectional=True,
         )
-        self.decoder = torch.nn.LSTM(
-            input_size=self.hidden_size,
-            hidden_size=self.embed_size,
-            bias=False,
-            bidirectional=False,
+        self.decoder = nn.LSTMCell(
+            input_size=(embed_size + self.hidden_size),
+            hidden_size=self.hidden_size,
+            bias=True,
         )
         self.h_projection = torch.nn.Linear(
-            self.hidden_size * 2, self.hidden_size * 2, bias=False
+            self.hidden_size * 2, self.hidden_size, bias=False
         )
         self.c_projection = torch.nn.Linear(
-            self.hidden_size * 2, self.hidden_size * 2, bias=False
+            self.hidden_size * 2, self.hidden_size, bias=False
         )
         self.att_projection = torch.nn.Linear(
-            self.hidden_size * 2, self.hidden_size * 2, bias=False
+            self.hidden_size * 2, self.hidden_size, bias=False
+        )
+        self.combined_output_projection = torch.nn.Linear(
+            3 * self.hidden_size, self.hidden_size, bias=False
+        )
+        self.target_vocab_projection = torch.nn.Linear(
+            self.hidden_size, self.model_embeddings.target.weight.shape[0]
         )
         self.dropout = torch.nn.Dropout(self.dropout_rate)
         ### END YOUR CODE
@@ -195,6 +200,18 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/tensors.html#torch.Tensor.permute
 
         ### END YOUR CODE
+        X = self.model_embeddings.source(source_padded) # Source model embeddings
+        ###################
+        packed_sequence = pack_padded_sequence(X, source_lengths)
+        (enc_hiddens, (last_hidden, last_cell)) = self.encoder(packed_sequence)
+        (enc_hiddens, _) = pad_packed_sequence(enc_hiddens, batch_first=True)
+        ####################
+        concat_hidden = torch.cat((last_hidden[0, :], last_hidden[1,:]), 1)
+        init_decoder_hidden = self.h_projection(concat_hidden)
+        concat_cell = torch.cat((last_cell[0, :], last_cell[1, :]), 1)
+        init_decoder_cell = self.c_projection(concat_cell)
+        dec_init_state = (init_decoder_hidden, init_decoder_cell)
+        #####################
 
         return enc_hiddens, dec_init_state
 
