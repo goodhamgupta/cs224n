@@ -1,0 +1,37 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, blindtext, float, graphicx, hyperref}
+\graphicspath{ {./images/} }
+\title{CS224n: Assignment 4 Solutions}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{NMT with RNN}
+\subsection{1. G}
+\begin{itemize}
+    \item Masking sentences is critical for attention to work.
+    \item In both the encoder and the decoder, they help set the attention to zero for the padded tokens and non-zero for the actual tokens.
+    \item In the decoder, the prevent the decoder from "peaking" into the tokens in the future. This helps ensure that the decoder focusses only on the information from the past.
+\end{itemize}
+\subsection{1. J}
+\begin{itemize}
+    \item \textbf{Additive Attention} 
+        \begin{itemize}
+            \item This was the original method introduced by Bahdanau.
+            \item It works well for large dimensions of data.
+            \item However, this is slow to compute as there it cannot be vectorized
+        \end{itemize}
+    \item \textbf{Multiplicative Attention} 
+        \begin{itemize}
+            \item It simplifies the additive attention operation by computing
+                $f_{att}(h_i, s_j) = h_i^TW_as_j$
+            \item This is similar to additive attention in terms of complexity but it is easier to compute because of matrix operations that can be vectorized.
+            \item It does not work well as the number of dimensions increases.
+        \end{itemize}
+\end{itemize}
+\section{Analyzing NMT Systems}
+\begin{itemize}
+    \item 
+\end{itemize}
+\end{document}
