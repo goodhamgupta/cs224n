@@ -1,0 +1,75 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, blindtext, float, graphicx, hyperref}
+\graphicspath{ {./images/} }
+\title{Question Answering}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+\begin{itemize}
+    \item For the number of massive docs present, need to retrieve only relevant information
+    \item Question-Answer done in two parts:
+        \begin{itemize}
+            \item Docs that (might) contain the answer
+            \item Finding answer in a paragraph or doc. Called as \textbf{reading comprehension}  
+        \end{itemize}
+\end{itemize}
+\section{SQuAD}
+\begin{itemize}
+    \item Questions have a passage and a answer.
+    \item Answer is always a subsequence of words from the passage i.e they occur in the same order in the passage. Also called a \textbf{span}  
+\end{itemize}
+\section{Evaluation}
+\begin{itemize}
+    \item 3 answers
+    \item Scored on:
+        \begin{itemize}
+            \item Exact match with \textit{gold answers} 
+            \item F1 score 
+        \end{itemize}
+    \item Ignore puntuation and articles(a, an, the, etc)
+\end{itemize}
+\section{SQuAD 2.0}
+\begin{itemize}
+    \item Has some questions which don't have answers in the passage
+    \item For questions that did not have an answer, \textit{NoAnswer} was scored 1 and anything else 0, for both exact match and F1
+\end{itemize}
+\section{SQuAD limitations}
+\begin{itemize}
+    \item Only span-based answers(no yes/no, counting, implicit why, etc)
+    \item Questions were constructed by looking at the passages
+    \begin{itemize}
+        \item Not genuine info needs
+        \item Greater lexical and syntactic match for these answers than we would find IRL
+    \end{itemize}
+    \item Multi-fact/sentence inference beyond coreference missing
+\end{itemize}
+\section{Stanford Attentive Reader}
+\begin{itemize}
+    \item Neural QA system
+    \item Simpliest system
+    \item BiLSTM with Attention
+    \item Deep BiLSTM works better
+    \item Input: Word vector + One hot encoding of POS and NER tags + Term frequency + Exact match(if word occurs in the question)
+\end{itemize}
+\section{BiDAF}
+\begin{itemize}
+    \item \textbf{Key idea}: Attention Flow Layer
+    \item Attention should flow both ways - from context to question and vice version
+    \item Make similarity matrix $S_{ij}$. Big concatened vector of   $c_i;q_j;c_i \circ q_j$
+\end{itemize}
+\section{FusionNet}
+\begin{itemize}
+    \item Attention functions:
+    \begin{itemize}
+        \item MLP (Additive) form. Space O*mnk), W is kxd
+        \item Bilinear(product) form: Space O((m+n)k). Smaller space and used non-linearity
+    \end{itemize}
+\end{itemize}
+\section{TLDR}
+\begin{itemize}
+    \item Most  of the best solutions have bert. \textbf{Use BERT} for your solutions. 
+\end{itemize}
+\end{document}
