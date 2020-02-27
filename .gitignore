@@ -286,3 +286,7 @@ TSWLatexianTemp*
 *.pickle
 random/datasets/*
 data/*
+
+*.bin
+*.optim
+*.json
