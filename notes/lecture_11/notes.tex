@@ -1,0 +1,102 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, blindtext, float, graphicx, hyperref}
+\graphicspath{ {./images/} }
+\title{Convolutional Networks for NLP}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{RNN to CNN}
+\begin{itemize}
+    \item RNN cannot capture phrases without context
+    \item Capture too much of last words in final vector
+    \item \textbf{CNN Idea}: Compute vectors for every possble word subsequence of certain length.  
+    \item Group these representation
+\end{itemize}
+\section{What is a convolution?}
+\begin{itemize}
+    \item Used in vision applications
+    \item 2D Discrete convolution
+        \begin{itemize}
+            \item Patch of numbers i.e matrix of numbers.
+            \item Slide this patch over the image
+            \item Multiply numbers in patch with numbers in image
+            \item Sum up the result
+        \end{itemize}
+\end{itemize}
+\subsection{1D convolution for text}
+\begin{itemize}
+    \item Dense word vectors
+    \item Apply filter(or kernel) of size 3 i.e of taking 3 words at a time
+    \item Dimensions of the word vectors are referred to as \textbf{channels}. I think this stems from the fact that CNN are generally used for images which can are RGB encoded(3 channels) 
+    \item Apply dot product. Do this recursively. Dot product will give a single number
+    \item Add zero padding at both ends so that length after convolution is the same length as the input.
+    \item Because we get a single number after applying convolution, we have reduced the channel count from 3 to 1. THIS IS BAD because we lose information
+    \item \textit{Solution}: Use multiple filters. Use 3 filters instead of 1 to get 3 channel output. Called \textit{wide convolution} 
+    \item Summarize the output of convolution. For 1D, This is called \textit{max pooling}. Just select the max value per channel
+    \item Could do something like average pooling as well. But max pooling works better in practice.
+    \item Moving down one element at a time is called \textbf{stride}. One element would be stride of 1. Most common. 
+    \item \textbf{Local Pooling}: Max pool set of rows. Set is selected according to the stride. This will also reduce computation 
+    \item \textbf{K-max polling}: Keep the top K max values IN THE ORDER THEY OCCUR. 
+    \item \textbf{Dilated Convolution}: Skip some rows in between. dilation = 2 will take alternate rows 
+\end{itemize}
+\section{Single Layer CNN for sentence classification}
+\begin{itemize}
+    \item Represent all words as a single vector
+    \item Add padding only to the right
+    \item Max pooling
+    \item Multi channel input idea: Use 2 sets of pre-train word vectors. Backprop into one set, keep other set "frozen". Both added before max pooling.
+    \item Final softmax layer for classification
+\end{itemize}
+\subsection{Regularization}
+\begin{itemize}
+    \item Use dropout
+    \item At test, no dropout. Scale weight matrix to get vectors of same scale
+\end{itemize}
+\section{Model Comparison}
+\begin{itemize}
+    \item \textbf{Bag of vectors}: Baseline for simple classification problems. Add ReLU layers for moar performance increase
+    \item \textbf{Window Model}: Good for single word classification. Low context. Eg: POS, NER 
+    \item \textbf{CNN}: Good for classification. Zero padding reqd. Parallelize well on GPU
+    \item \textbf{RNN}: Not best for classification. Slower than cNN. Good for sequence tagging. Great for LM. AMAZING with attention  
+\end{itemize}
+\section{Gated units used vertically}
+\begin{itemize}
+    \item Apply gates vertically for CNN
+    \item Residual block. $F(x) + x$. Also called ResNet
+    \item Need to use padding for convnet
+    \item \textbf{Highway Block}: Similar to resnet. It has forget and input gate. $F(x)T(x) + x.C(x)$ 
+\end{itemize}
+\section{Batch Normalization}
+\begin{itemize}
+    \item Used in CNN
+    \item Transform conv output of a batch by scaling activation to gaussian i.e 0 mean and unit variance. Similar to Z-score in statistics
+\end{itemize}
+\section{1x1 convolutions}
+\begin{itemize}
+    \item Kernel size = 1
+    \item Fully connected linear layer across channels
+    \item Lesser params than fully connected layers
+\end{itemize}
+\section{Translation}
+\begin{itemize}
+    \item CNN for encoding and RNN for decoding
+    \item Pretty good performance
+    \item Paper: Kalchnrenner and Blunsom. "Recurrent continous translation models"
+\end{itemize}
+\section{Convolution over character}
+\begin{itemize}
+    \item Used convolution to generate word embeddings
+    \item Fixed window of embeddings for POS
+\end{itemize}
+\section{Quasi RNN}
+\begin{itemize}
+    \item RNN are slow.
+    \item Combine RNN and CNN to get best of both
+    \item Stick relation between $t$ and $t-1$ through conv op.
+    \item Gives pseudo recurrence
+    \item Deeper NN will be better
+    \item Better and faster than LSTM
+\end{itemize}
+\end{document}

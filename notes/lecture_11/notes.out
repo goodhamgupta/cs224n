@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{RNN to CNN}{}% 1
+\BOOKMARK [1][-]{section.2}{What is a convolution?}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{1D convolution for text}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Single Layer CNN for sentence classification}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Regularization}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Model Comparison}{}% 6
+\BOOKMARK [1][-]{section.5}{Gated units used vertically}{}% 7
+\BOOKMARK [1][-]{section.6}{Batch Normalization}{}% 8
+\BOOKMARK [1][-]{section.7}{1x1 convolutions}{}% 9
+\BOOKMARK [1][-]{section.8}{Translation}{}% 10
+\BOOKMARK [1][-]{section.9}{Convolution over character}{}% 11
+\BOOKMARK [1][-]{section.10}{Quasi RNN}{}% 12
