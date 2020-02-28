@@ -14,6 +14,61 @@
     \item \textit{Morphenes} Smallest sematic unit. Helps break down words into smaller units that have distinct meanings
     \item Difficult to work with morphenes though. Hence use character n-grams.
     \item Need to handle large, open vocab for word based models
-    \item 
+    \item Transliteration: Translate names using how they sound in different language
+\end{itemize}
+\section{Character level models}
+\begin{itemize}
+    \item Word embeddings composed from character embeddings
+        \begin{itemize}
+            \item Generate embeddings for unknown words
+            \item Similar spellings => Similar embeddings
+            \item Solves OOV problem
+        \end{itemize}
+    \item OR processed language as characters
+    \item Both methods work well
+    \item Char level models give strong results via deep conv stack
+\end{itemize}
+\section{Purely char-level NMT models}
+\begin{itemize}
+    \item Decoder only models worked well
+    \item \textbf{Problem}: Sequences are too long. Models train/predict VERY slow. 
+\end{itemize}
+\section{Two trends of sub-word models}
+\begin{itemize}
+    \item Use smaller units: \textit{word pieces} 
+    \item \textit{Hybrid} arch:
+    \begin{itemize}
+        \item Main models has words. Something else for chars
+    \end{itemize}
+\end{itemize}
+\section{Byte Pair Encoding}
+\begin{itemize}
+    \item Originally compression algo
+    \item Collection of stuff with bytes. Look for seq of 2 bytes. Add to dict of possible values
+    \item Replace bytes with character ngrams
+    \item Use as normal words in the NMT
+    \item VERY good results. Top places in WMT 2016. Still used now as well
+    \item Google: Use both wordpiece and sentencepiece
+    \item Wordpiece model tokenizes inside words
+    \item Sentence works with raw text
+    \item Whitespace is retaied as $\underscore$ 
+    \item Reverse things at end by joining pieces and recoding them to spaces
+    \item BERT uses a variation for BPE
+    \item Use CNN or BiLSTM to build word representations
+\end{itemize}
+\section{Hybrid NMT}
+\begin{itemize}
+    \item Translate at word level
+    \item Go to char level when needed
+    \item Word level bean search
+\end{itemize}
+\section{FastText}
+\begin{itemize}
+    \item Next efficient w2v. Better for rare words and longuages with lots of morphology
+    \item w2v skip-gram with character n-grams
+    \item Word as n-grams augmented with boundary sumbols and as a whole word
+    \item where = <wh, whe, her, ere, re>, <where>
+    \item Word is sum of these representations
+    \item Some hashing trick to reduce vocab size
 \end{itemize}
 \end{document}
