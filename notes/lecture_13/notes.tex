@@ -9,6 +9,20 @@
 \maketitle
 \section{Introduction}
 \begin{itemize}
-    \item 
+    \item Word vectors: word2vec, GloVe, fasText
+    \item Pre-trained word embeddings better than random embeddings
+    \item Unknown words
+    \begin{itemize}
+        \item Use <UNK> for OOV words
+        \item No way to disguish words though
+        \item Solution: Use character embeddings
+        \item At test time, unsupervised word embeddings with be bigger. Use the vector as it is.
+        \item Other words => Assign random vector => Add them to vocabulary
+    \end{itemize}
+    \item Representations of word
+    \begin{itemize}
+        \item Same word can have different meanings
+        \item 
+    \end{itemize}
 \end{itemize}
 \end{document}
