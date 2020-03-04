@@ -12,17 +12,102 @@
     \item Word vectors: word2vec, GloVe, fasText
     \item Pre-trained word embeddings better than random embeddings
     \item Unknown words
-    \begin{itemize}
-        \item Use <UNK> for OOV words
-        \item No way to disguish words though
-        \item Solution: Use character embeddings
-        \item At test time, unsupervised word embeddings with be bigger. Use the vector as it is.
-        \item Other words => Assign random vector => Add them to vocabulary
-    \end{itemize}
+        \begin{itemize}
+            \item Use <UNK> for OOV words
+            \item No way to disguish words though
+            \item Solution: Use character embeddings
+            \item At test time, unsupervised word embeddings with be bigger. Use the vector as it is.
+            \item Other words => Assign random vector => Add them to vocabulary
+        \end{itemize}
     \item Representations of word
+        \begin{itemize}
+            \item Always same representation for word. Difficult to do word sense disambiguation
+            \item Same word can have different meanings
+        \end{itemize}
+    \item Solution: \textbf{NLM}
+        \begin{itemize}
+            \item In NLM, word vectors sent to LSTM layer
+            \item LSTM layers predict next word
+            \item BUT, these are context specific word representations at each position
+        \end{itemize}
+\end{itemize}
+\section{TagLM "Pre-ELMo"}
+\begin{itemize}
+    \item Semi-supervised approach
+    \item NLM on large unlabelled corpus
+    \item Train word embedding model and NLM model together
+    \item Concatenate hidden states with word embedding to sequence tagging model for NER
+    \item Dataset: CoNLL
+    \item TagLM was SOTA in 2017.
+    \item Useful to have big and bidirectional LM
+\end{itemize}
+\section{ELMo}
+\begin{itemize}
+    \item Breakout version of word token vectors and contextual word vectors
+    \item Similar to TagLM
+        \begin{itemize}
+            \item 2 biLSTM layers
+            \item Char CNN to build initial word representation
+            \item Larger hidden dim
+            \item Residual connection
+        \end{itemize}
+    \item TagLM: Only top-level of neural model stack fed into the trained model
+    \item ELMo: Use ALL LAYERS
+    \item For a particular word, take hidden states at each level, learn weight and use that as a representation.
+    \item Use ELMo representations for any task
+    \item Moar performance increase
+    \item Two biLSTM layers
+        \begin{itemize}
+            \item Lower layer: Better lower-level syntax. NER, etc
+            \item Better for higher level sematics. QA, 
+        \end{itemize}
+\end{itemize}
+\section{ULMfit}
+\begin{itemize}
+    \item Train LM on big corpus
+    \item Tune LM on target task data
+    \item Fine-tune as classifier on target task
+    \item Moar performance improvements
+    \item Fine-tuning helped
+    \item Scaling it up led to GPT, BERT, GPT-2, etc
+    \item All of the new models based on \textbf{Transformers}  
+\end{itemize}
+\section{Transformers}
+\begin{itemize}
+    \item Annotated Transformer Havard. Link \href{https://nlp.seas.harvard.edu/2018/04/03/attention.html}{here}
+    \item \textbf{Motivation}: Parralization BUT RNN are sequential 
+    \item Maybe just use attention and remove RNN
+\end{itemize}
+\subsection{Attention is All you need}
+\begin{itemize}
+    \item Non-recurrent seq-to-seq encoder decoder model
+    \item \textbf{Dot product attention}: Use attention everywhere 
+        \begin{itemize}
+            \item Inputs: q and set of k-v airs
+            \item All vectors
+            \item Looking up k-v pairs. Calculate similarity based on dot product of query and key. Use this to key attention based weighting to v.
+                \begin{equation}
+                    \begin{split}
+                        A(q,K,V) = \sum_{i} \frac{e^{q.k_i}}{\sum_{j} e^{q.k_j}}v_i
+                    \end{split}
+                \end{equation}
+        \end{itemize}
+    \item Use all vectors
+    \item \textbf{Multiple Attention Heads}: Linear proj by mutiple attention layers
+    \item 2 sublayers
     \begin{itemize}
-        \item Same word can have different meanings
-        \item 
+        \item Multihead attention
+        \item 2-layer feed-forward NNet
     \end{itemize}
+    \item Allows parallelization
+    \item Adds positional encoding as well.
+\end{itemize}
+\section{BERT}
+\begin{itemize}
+    \item BiDirectional encoder representation transformer
+    \item Mask out k percent of words. k = 15
+    \item Perdict masked words
+    \item Other objective is to do next sentence prediction
+    \item \textbf{Flair} beats BERT on NER
 \end{itemize}
 \end{document}
