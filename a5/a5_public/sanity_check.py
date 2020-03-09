@@ -7,6 +7,7 @@ sanity_check.py: sanity checks for assignment 5
 Usage:
     sanity_check.py 1e
     sanity_check.py 1f
+    sanity_check.py 1g
     sanity_check.py 1j
     sanity_check.py 2a
     sanity_check.py 2b
@@ -95,6 +96,26 @@ def question_1f_sanity_check():
     print("Sanity Check Passed for Question 1f: Padding!")
     print("-"*80)
 
+def question_1g_sanity_check():
+    """ Sanity check for pad_sents_char() function.
+    """
+    print ("-"*80)
+    print("Running Sanity Check for Question 1g: Input tensor char")
+    print ("-"*80)
+    vocab = VocabEntry()
+    max_sentence_length = 6
+    max_word_length = 21
+
+    print("Running test on a list of sentences")
+    sentences = [['Human:', 'What', 'do', 'we', 'want?'], ['Computer:', 'Natural', 'language', 'processing!'], ['Human:', 'When', 'do', 'we', 'want', 'it?'], ['Computer:', 'When', 'do', 'we', 'want', 'what?']]
+    device = torch.device('cpu')
+    tensor = vocab.to_input_tensor_char(sentences, device)
+
+    assert type(tensor) == torch.Tensor
+    assert tensor.size() == torch.Size([max_sentence_length, len(sentences), max_word_length])
+
+    print("Sanity Check Passed for Question 1g: Input tensor char!")
+    print("-"*80)
 
 def question_1j_sanity_check(model):
 	""" Sanity check for model_embeddings.py
@@ -213,6 +234,8 @@ def main():
         question_1e_sanity_check()
     elif args['1f']:
         question_1f_sanity_check()
+    elif args['1g']:
+        question_1g_sanity_check()
     elif args['1j']:
         question_1j_sanity_check(model)
     elif args['2a']:

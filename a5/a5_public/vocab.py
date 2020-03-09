@@ -168,7 +168,11 @@ class VocabEntry(object):
         ### TODO:
         ###     Connect `words2charindices()` and `pad_sents_char()` which you've defined in
         ###     previous parts
-
+        indices = self.words2charindices(sents)
+        padded_sents = pad_sents_char(indices, self['<pad>'])
+        tensor = torch.tensor(padded_sents).permute(1,0,2) # Change the order of dimensions
+        tensor = tensor.to(device)
+        return tensor
 
         ### END YOUR CODE
 
