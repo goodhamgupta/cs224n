@@ -49,6 +49,33 @@ class NMT(nn.Module):
 
         ### COPY OVER YOUR CODE FROM ASSIGNMENT 4
 
+        self.encoder = torch.nn.LSTM(
+            input_size=embed_size,
+            hidden_size=self.hidden_size,
+            bias=True,
+            bidirectional=True,
+        )
+        self.decoder = nn.LSTMCell(
+            input_size=(embed_size + self.hidden_size),
+            hidden_size=self.hidden_size,
+            bias=True,
+        )
+        self.h_projection = torch.nn.Linear(
+            self.hidden_size * 2, self.hidden_size, bias=False
+        )
+        self.c_projection = torch.nn.Linear(
+            self.hidden_size * 2, self.hidden_size, bias=False
+        )
+        self.att_projection = torch.nn.Linear(
+            self.hidden_size * 2, self.hidden_size, bias=False
+        )
+        self.combined_output_projection = torch.nn.Linear(
+            3 * self.hidden_size, self.hidden_size, bias=False
+        )
+        #self.target_vocab_projection = torch.nn.Linear(
+        #    self.hidden_size, self.model_embeddings_target.weight.shape[0]
+        #)
+        self.dropout = torch.nn.Dropout(self.dropout_rate)
 
         ### END YOUR CODE FROM ASSIGNMENT 4
 
@@ -219,7 +246,7 @@ class NMT(nn.Module):
 
 
         ### END YOUR CODE FROM ASSIGNMENT 4
-        
+
 
         combined_output = O_t
         return dec_state, combined_output, e_t

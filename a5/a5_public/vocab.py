@@ -44,7 +44,7 @@ class VocabEntry(object):
             self.word2id['<unk>'] = 3   # Unknown Token
         self.unk_id = self.word2id['<unk>']
         self.id2word = {v: k for k, v in self.word2id.items()}
-        
+
         ## Additions to the A4 code:
         self.char_list = list("""ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,;.!?:'\"/\\|_@#$%^&*~`+-=<>()[]""")
 
@@ -54,7 +54,7 @@ class VocabEntry(object):
         self.char2id['}'] = 2
         self.char2id['<unk>'] = 3
         for i, c in enumerate(self.char_list):
-            self.char2id[c] = len(self.char2id)
+            self.char2id[c] = len(self.char2id) # Character ID is the length of the char2id list at any given point
         self.char_unk = self.char2id['<unk>']
         self.start_of_word = self.char2id["{"]
         self.end_of_word = self.char2id["}"]
@@ -67,14 +67,14 @@ class VocabEntry(object):
         """ Retrieve word's index. Return the index for the unk
         token if the word is out of vocabulary.
         @param word (str): word to look up.
-        @returns index (int): index of word 
+        @returns index (int): index of word
         """
         return self.word2id.get(word, self.unk_id)
 
     def __contains__(self, word):
         """ Check if word is captured by VocabEntry.
         @param word (str): word to look up
-        @returns contains (bool): whether word is contained    
+        @returns contains (bool): whether word is contained
         """
         return word in self.word2id
 
@@ -120,14 +120,24 @@ class VocabEntry(object):
         @return word_ids (list[list[list[int]]]): sentence(s) in indices
         """
         ### YOUR CODE HERE for part 1e
-        ### TODO: 
-        ###     This method should convert characters in the input sentences into their 
-        ###     corresponding character indices using the character vocabulary char2id 
+        ### TODO:
+        ###     This method should convert characters in the input sentences into their
+        ###     corresponding character indices using the character vocabulary char2id
         ###     defined above.
         ###
-        ###     You must prepend each word with the `start_of_word` character and append 
-        ###     with the `end_of_word` character. 
-
+        ###     You must prepend each word with the `start_of_word` character and append
+        ###     with the `end_of_word` character.
+        indices = []
+        for sentence in sents:
+            sent_ind = []
+            for word in sentence:
+                word_ind = [self.start_of_word]
+                for char in word:
+                    word_ind.append(self.char2id[char])
+                word_ind.append(self.end_of_word)
+                sent_ind.append(word_ind)
+            indices.append(sent_ind)
+        return indices
 
         ### END YOUR CODE
 
@@ -146,7 +156,7 @@ class VocabEntry(object):
         return [self.id2word[w_id] for w_id in word_ids]
 
     def to_input_tensor_char(self, sents: List[List[str]], device: torch.device) -> torch.Tensor:
-        """ Convert list of sentences (words) into tensor with necessary padding for 
+        """ Convert list of sentences (words) into tensor with necessary padding for
         shorter sentences.
 
         @param sents (List[List[str]]): list of sentences (words)
@@ -155,15 +165,15 @@ class VocabEntry(object):
         @returns sents_var: tensor of (max_sentence_length, batch_size, max_word_length)
         """
         ### YOUR CODE HERE for part 1g
-        ### TODO: 
-        ###     Connect `words2charindices()` and `pad_sents_char()` which you've defined in 
+        ### TODO:
+        ###     Connect `words2charindices()` and `pad_sents_char()` which you've defined in
         ###     previous parts
-        
+
 
         ### END YOUR CODE
 
     def to_input_tensor(self, sents: List[List[str]], device: torch.device) -> torch.Tensor:
-        """ Convert list of sentences (words) into tensor with necessary padding for 
+        """ Convert list of sentences (words) into tensor with necessary padding for
         shorter sentences.
 
         @param sents (List[List[str]]): list of sentences (words)
