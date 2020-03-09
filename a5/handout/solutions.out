@@ -1,0 +1,5 @@
+\BOOKMARK [1][-]{section.1}{Character-based convolutional encoder for NMT}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Character embedding}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Model size}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Advantage of CNN over RNN}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{Max vs Avg pooling}{section.1}% 5

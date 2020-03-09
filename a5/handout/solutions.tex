@@ -1,0 +1,50 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, blindtext, float, graphicx, hyperref}
+\graphicspath{ {./images/} }
+\title{Assignment 5: Solutions}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{Character-based convolutional encoder for NMT}
+\subsection{Character embedding}
+\begin{itemize}
+    \item Character embeddings are lower in dim because:
+    \begin{itemize}
+        \item Typically they consist of characters plus punctuation symbol. This small set of symbols are able to represent almost all words in the english language
+        \item Using char embeddings we can obtain embeddings for OOV words as well
+        \item Good for representing new words, emoticons, etc.
+        \item Good for representing infrequent words which may be missing from the dataset
+    \end{itemize}
+\end{itemize}
+\subsection{Model size}
+\begin{itemize}
+    \item Character embedding
+    \begin{itemize}
+        \item $e_{char}$ = 50
+        \item $V_{char} * e_{char} + e_{word} * k * e_{char} + 2 * (e_{word} * e_{word} + e_{word}$
+    \end{itemize}
+    \item Word embedding
+    \begin{itemize}
+        \item $V_{word} * e_{word}$
+    \end{itemize}
+\end{itemize}
+\subsection{Advantage of CNN over RNN}
+\begin{itemize}
+    \item We know that RNN feed the output of sequence as the input to the next sequence. Bi-directional RNN learn from both forward and backward directions thereby creating contextual embeddings. HOWEVER, these embeddings can only take a window of words around it and they will compute the embeddings sequencially. CNN can learn different features using different kernels in parallel
+\end{itemize}
+\subsection{Max vs Avg pooling}
+\begin{itemize}
+    \item Max pooling
+    \begin{itemize}
+        \item Identifies the most important feature
+        \item Discards other info that could potentially be useful
+    \end{itemize}
+    \item Avg pooling
+    \begin{itemize}
+        \item Gives every word equal importance. Preserve data info
+        \item Incase there is one strong signal and multiple weak signals, it can dilute the important signal causing loss of information
+    \end{itemize}
+\end{itemize}
+\end{document}
