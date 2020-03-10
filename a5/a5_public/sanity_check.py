@@ -8,6 +8,7 @@ Usage:
     sanity_check.py 1e
     sanity_check.py 1f
     sanity_check.py 1g
+    sanity_check.py 1h
     sanity_check.py 1j
     sanity_check.py 2a
     sanity_check.py 2b
@@ -29,6 +30,7 @@ from utils import pad_sents_char, read_corpus, batch_iter
 from vocab import Vocab, VocabEntry
 
 from char_decoder import CharDecoder
+from highway import Highway
 from nmt_model import NMT
 
 
@@ -116,6 +118,20 @@ def question_1g_sanity_check():
 
     print("Sanity Check Passed for Question 1g: Input tensor char!")
     print("-"*80)
+
+def question_1h_sanity_check():
+    """ Sanity check for pad_sents_char() function.
+    """
+    print ("-"*80)
+    print("Running Sanity Check for Question 1h: Highway Network")
+    print ("-"*80)
+    layer = Highway(2, nn.functional.relu)
+    x = torch.zeros(2,2)
+    output = layer(x)
+    assert list(output.size()) == [2,2]
+    print("Sanity Check Passed for Question 1h: Highway Network!")
+    print("-"*80)
+
 
 def question_1j_sanity_check(model):
 	""" Sanity check for model_embeddings.py
@@ -236,6 +252,8 @@ def main():
         question_1f_sanity_check()
     elif args['1g']:
         question_1g_sanity_check()
+    elif args['1h']:
+        question_1h_sanity_check()
     elif args['1j']:
         question_1j_sanity_check(model)
     elif args['2a']:
