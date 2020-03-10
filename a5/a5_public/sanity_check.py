@@ -143,7 +143,7 @@ def question_1i_sanity_check():
     layer = CNN(2,2, kernel_size=1)
     x = torch.zeros(2,2, 1)
     output = layer(x)
-    assert list(output.size()) == [2,2, 1]
+    assert list(output.size()) == [2,2,1]
     print("Sanity Check Passed for Question 1i: CNN!")
     print("-"*80)
 

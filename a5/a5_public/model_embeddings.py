@@ -17,15 +17,17 @@ import torch.nn as nn
 #   `Highway` in the file `highway.py`
 # Uncomment the following two imports once you're ready to run part 1(j)
 
-# from cnn import CNN
-# from highway import Highway
+from cnn import CNN
+from highway import Highway
 
 # End "do not change"
+
 
 class ModelEmbeddings(nn.Module):
     """
     Class that converts input words to their CNN-based embeddings.
     """
+
     def __init__(self, embed_size, vocab):
         """
         Init the Embedding layer for one language
@@ -35,12 +37,15 @@ class ModelEmbeddings(nn.Module):
         super(ModelEmbeddings, self).__init__()
 
         ## A4 code
-        #pad_token_idx = vocab.src['<pad>']
-        #self.embeddings = nn.Embedding(len(vocab.src), embed_size, padding_idx=pad_token_idx)
+        pad_token_idx = vocab.char2id["<pad>"]
         ## End A4 code
 
         ### YOUR CODE HERE for part 1j
-
+        self.embed_size = embed_size
+        char_embed_size = 50
+        self.char_embedding = nn.Embedding(len(vocab.char2id), char_embed_size, pad_token_idx)
+        self.cnn = CNN(f=self.embed_size)
+        self.highway = Highway(embed_size)
 
         ### END YOUR CODE
 
@@ -54,12 +59,13 @@ class ModelEmbeddings(nn.Module):
             CNN-based embeddings for each word of the sentences in the batch
         """
         ## A4 code
-        # output = self.embeddings(input)
+        output = self.embeddings(input)
+        import pdb
+        pdb.set_trace()
         # return output
         ## End A4 code
 
+        return output
         ### YOUR CODE HERE for part 1j
 
-
         ### END YOUR CODE
-
