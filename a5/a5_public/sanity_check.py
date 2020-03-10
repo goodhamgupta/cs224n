@@ -9,6 +9,7 @@ Usage:
     sanity_check.py 1f
     sanity_check.py 1g
     sanity_check.py 1h
+    sanity_check.py 1i
     sanity_check.py 1j
     sanity_check.py 2a
     sanity_check.py 2b
@@ -30,6 +31,7 @@ from utils import pad_sents_char, read_corpus, batch_iter
 from vocab import Vocab, VocabEntry
 
 from char_decoder import CharDecoder
+from cnn import CNN
 from highway import Highway
 from nmt_model import NMT
 
@@ -120,7 +122,7 @@ def question_1g_sanity_check():
     print("-"*80)
 
 def question_1h_sanity_check():
-    """ Sanity check for pad_sents_char() function.
+    """ Sanity check for Highway network
     """
     print ("-"*80)
     print("Running Sanity Check for Question 1h: Highway Network")
@@ -130,6 +132,19 @@ def question_1h_sanity_check():
     output = layer(x)
     assert list(output.size()) == [2,2]
     print("Sanity Check Passed for Question 1h: Highway Network!")
+    print("-"*80)
+
+def question_1i_sanity_check():
+    """ Sanity check for CNN
+    """
+    print ("-"*80)
+    print("Running Sanity Check for Question 1i: CNN")
+    print ("-"*80)
+    layer = CNN(2,2, kernel_size=1)
+    x = torch.zeros(2,2, 1)
+    output = layer(x)
+    assert list(output.size()) == [2,2, 1]
+    print("Sanity Check Passed for Question 1i: CNN!")
     print("-"*80)
 
 
@@ -254,6 +269,8 @@ def main():
         question_1g_sanity_check()
     elif args['1h']:
         question_1h_sanity_check()
+    elif args['1i']:
+        question_1i_sanity_check()
     elif args['1j']:
         question_1j_sanity_check(model)
     elif args['2a']:
