@@ -10,6 +10,7 @@ Anand Dhoot <anandd@stanford.edu>
 Michael Hahn <mhahn2@stanford.edu>
 """
 
+import torch
 import torch.nn as nn
 
 # Do not change these imports; your module names should be
@@ -28,7 +29,7 @@ class ModelEmbeddings(nn.Module):
     Class that converts input words to their CNN-based embeddings.
     """
 
-    def __init__(self, embed_size, vocab):
+    def __init__(self, embed_size, vocab, dropout_prob: int = 0.3):
         """
         Init the Embedding layer for one language
         @param embed_size (int): Embedding size (dimensionality) for the output
@@ -43,9 +44,14 @@ class ModelEmbeddings(nn.Module):
         ### YOUR CODE HERE for part 1j
         self.embed_size = embed_size
         char_embed_size = 50
-        self.char_embedding = nn.Embedding(len(vocab.char2id), char_embed_size, pad_token_idx)
-        self.cnn = CNN(f=self.embed_size)
-        self.highway = Highway(embed_size)
+        self.char_embedding = nn.Embedding(
+            num_embeddings=len(vocab.char2id),
+            embedding_dim=char_embed_size,
+            padding_idx=pad_token_idx,
+        )
+        self.cnn = CNN(filter=self.embed_size)
+        self.highway = Highway(self.embed_size)
+        self.dropout = nn.Dropout(dropout_prob)
 
         ### END YOUR CODE
 
@@ -59,13 +65,27 @@ class ModelEmbeddings(nn.Module):
             CNN-based embeddings for each word of the sentences in the batch
         """
         ## A4 code
-        output = self.embeddings(input)
-        import pdb
-        pdb.set_trace()
+        output = self.char_embedding(input)
         # return output
         ## End A4 code
 
-        return output
         ### YOUR CODE HERE for part 1j
+        x_word_emb_list = []
+
+        for x_padded in input:
+            x_emb = self.char_embedding(x_padded)
+            x_reshaped = x_emb.permute(0, 2, 1)  # Changing dim to [5,50,21]
+            x_conv_out = self.cnn(x_reshaped)
+            x_highway_out = self.highway(x_conv_out)
+            x_dropout = self.dropout(x_highway_out)
+            x_word_emb_list.append(x_dropout)
+
+        print("[DEBUG]: x_emb shape: ", x_emb.shape)
+        print("[DEBUG]: x_reshaped shape: ", x_reshaped.shape)
+        print("[DEBUG]: x_conv_out shape: ", x_conv_out.shape)
+        print("[DEBUG]: x_highway_out shape: ", x_highway_out.shape)
+        print("[DEBUG]: x_dropout shape: ", x_dropout.shape)
+        stacked_tensor = torch.stack(x_word_emb_list)
+        return stacked_tensor
 
         ### END YOUR CODE
