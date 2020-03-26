@@ -80,11 +80,6 @@ class ModelEmbeddings(nn.Module):
             x_dropout = self.dropout(x_highway_out)
             x_word_emb_list.append(x_dropout)
 
-        print("[DEBUG]: x_emb shape: ", x_emb.shape)
-        print("[DEBUG]: x_reshaped shape: ", x_reshaped.shape)
-        print("[DEBUG]: x_conv_out shape: ", x_conv_out.shape)
-        print("[DEBUG]: x_highway_out shape: ", x_highway_out.shape)
-        print("[DEBUG]: x_dropout shape: ", x_dropout.shape)
         stacked_tensor = torch.stack(x_word_emb_list)
         return stacked_tensor
 

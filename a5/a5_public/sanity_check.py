@@ -11,6 +11,7 @@ Usage:
     sanity_check.py 1h
     sanity_check.py 1i
     sanity_check.py 1j
+    sanity_check.py 1k
     sanity_check.py 2a
     sanity_check.py 2b
     sanity_check.py 2c
@@ -165,6 +166,22 @@ def question_1j_sanity_check(model):
 	print("Sanity Check Passed for Question 1j: Model Embedding!")
 	print("-"*80)
 
+def question_1k_sanity_check(model):
+    """ Sanity check for NMT forward pass
+    """
+    print ("-"*80)
+    print("Running Sanity Check for Question 1k: NMT forward pass")
+    print ("-"*80)
+    sentence_length = 10
+    max_word_length = 21
+    source = [["Human"]]
+    target = [["Computer"]]
+    output = model.forward(source, target)
+    output_expected_size = [sentence_length, BATCH_SIZE, EMBED_SIZE]
+    assert(list(output.size()) == output_expected_size), "output shape is incorrect: it should be:\n {} but is:\n{}".format(output_expected_size, list(output.size()))
+    print("Sanity Check Passed for Question 1k: NMT forward pass!")
+    print("-"*80)
+
 def question_2a_sanity_check(decoder, char_vocab):
     """ Sanity check for CharDecoder.__init__()
         basic shape check
@@ -273,6 +290,8 @@ def main():
         question_1i_sanity_check()
     elif args['1j']:
         question_1j_sanity_check(model)
+    elif args['1k']:
+        question_1k_sanity_check(model)
     elif args['2a']:
         question_2a_sanity_check(decoder, char_vocab)
     elif args['2b']:
