@@ -49,8 +49,11 @@ class CharDecoder(nn.Module):
         """
         ### YOUR CODE HERE for part 2b
         ### TODO - Implement the forward pass of the character decoder.
-
+        char_embeddings = self.decoderCharEmb(input)
+        (hidden_states, dec_hidden) = self.charDecoder(char_embeddings)
+        scores = self.char_output_projection(hidden_states)
         ### END YOUR CODE
+        return (scores, dec_hidden)
 
     def train_forward(self, char_sequence, dec_hidden=None):
         """ Forward computation during training.
