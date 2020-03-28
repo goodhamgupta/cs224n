@@ -35,6 +35,7 @@ class CharDecoder(nn.Module):
         self.decoderCharEmb = nn.Embedding(
             len(target_vocab.id2char), char_embedding_size
         )
+        self.padding_idx = target_vocab.char2id["<pad>"]
 
         ### END YOUR CODE
 
@@ -68,7 +69,10 @@ class CharDecoder(nn.Module):
         ###
         ### Hint: - Make sure padding characters do not contribute to the cross-entropy loss.
         ###       - char_sequence corresponds to the sequence x_1 ... x_{n+1} from the handout (e.g., <START>,m,u,s,i,c,<END>).
-
+        (scores, dec_hidden) = self.forward(char_sequence[:-1], dec_hidden)
+        loss_fn = nn.CrossEntropyLoss(ignore_index=self.padding_idx, reduction="sum")
+        loss = loss_fn(scores.permute(1,2,0), char_sequence[1:].transpose(1,0))
+        return loss
         ### END YOUR CODE
 
     def decode_greedy(self, initialStates, device, max_length=21):
