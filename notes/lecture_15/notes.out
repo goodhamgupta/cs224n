@@ -1,0 +1,15 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Decoding algorithms}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Sampling based decoding}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{NLG tasks and neural approaches to them}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Summarization}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{Stratergies}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.3}{Metrics}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.4}{Neural Summarization: copy mechanisms}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.5}{RL for summarization}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Dialogue}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{Irrelevant response}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.2}{Generic/Boring response problem}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{Repetition problem}{section.4}% 13
+\BOOKMARK [1][-]{section.5}{Storytelling}{}% 14
+\BOOKMARK [1][-]{section.6}{NLG evaluation}{}% 15

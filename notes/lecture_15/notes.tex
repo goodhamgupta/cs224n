@@ -1,0 +1,170 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, blindtext, float, graphicx, hyperref}
+\graphicspath{ {./images/} }
+\title{Lecture 15: Natural Language Generation}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+\begin{itemize}
+    \item Explore neural approaches for NLG
+    \item NLG is subcomponent of:
+    \begin{itemize}
+        \item MT
+        \item Abstractive Summarization
+        \item Dialogue
+        \item Createive writing
+        \item Freeform Q and A
+        \item Image captioning
+    \end{itemize}
+    \item Language Modelling: Predicting next word given words so far. $P(y_t|y_1,y_2,..)$
+    \item Conditional Language Modelling: Predicting next word given words so far and another input x. $P(y_t|y_1,y_2,.., x)$
+    \begin{itemize}
+        \item MT
+        \item Summarization
+        \item Dialogue
+    \end{itemize}
+    \item During training of RNN-LM, we feed gold(true) target sentence to decoder, regardless of it's output. This is called \textbf{Teacher Enforcing}.  
+\end{itemize}
+\section{Decoding algorithms}
+\begin{itemize}
+    \item Greedy decoding: Pick most probable word at each step. Use that as next work. Output can be poor
+    \item Bean search: Find high probability sequence. Keep track of $k$ most probable sequences. After stopping, choose sequence with highest probability. 
+\end{itemize}
+\subsection{Sampling based decoding}
+\begin{itemize}
+    \item Pure sampling: Randomly sample from $P_{t}$ to obtain next word.
+    \item Top-n sampling: Random sampleafrom $P_{t}$, restricted to top-n most probable words. More efficient than beam search. Increase $n$ to get more diverse/risky output. Decrease to get generic/safe output
+    \item Softmax temperature
+    \begin{itemize}
+        \item At t, compute scores by using softmax function
+        \item Apply temperature hyperparameter $\tau$ to the softmax
+        \begin{equation}
+        \begin{split}
+            P_t(w) = \frac{exp(s_w/\tau)}{\sum_{\hat{w} \epsilon V} exp(\frac{\hat{s_w}}{\tau})}
+        \end{split}
+        \end{equation}
+        \item Increasing $\tau$ => Dist becomes uniform. More diverse output
+        \item Decreasing $\tau$ => Dist becomes spikes. Less diverse output
+        \item This is \textbf{not a decoding algorithm}. This is a technique that can be applied during testing time along with regular decoding algorithms 
+    \end{itemize}
+\end{itemize}
+\section{NLG tasks and neural approaches to them}
+\subsection{Summarization}
+\begin{itemize}
+    \item Given input $x$, summary $y$ which is shorter and contains main information of $x$ \item \textit{Sentence Simplicifation}: Rewrite source text in simplier way
+\end{itemize}
+\subsection{Stratergies}
+\begin{itemize}
+    \item Extractive: Extract original text
+    \item Abstractive: generate new text with NLG
+\end{itemize}
+\subsection{Metrics}
+\begin{itemize}
+    \item ROUGE: Recall Oriented Understudy for Gisting Evaluation
+    \item Like BLEU. Based on n-gram overlap. Differences are:
+    \begin{itemize}
+        \item No brevity penalty
+        \item ROUGE based on recall, BLEU based on precision
+    \end{itemize}
+    \item Commonly reported ROUGE scores are:
+    \begin{itemize}
+        \item ROUGE-1: unigram overlap
+        \item ROUGE-2: bigram overlap
+        \item ROUGE-L: longest common subsequence overlap
+    \end{itemize}
+\end{itemize}
+\subsection{Neural Summarization: copy mechanisms}
+\begin{itemize}
+    \item seq2seq + attention systems good at writing output BUT bad at copying details
+    \item Solution: Use attentiion to enabe seq2seq system to easily copy words and phrases from input to the output.
+    \begin{itemize}
+        \item More useful in summarization
+        \item Allows hybrid extractive/abstractive approach
+    \end{itemize}
+    \begin{itemize}
+        \item Copy too much. Mostly copy whole sentences
+        \item Collapses into mostly extractive system
+        \item Bad at content selection. Fails for long documents
+        \item Solution: use bottom up summarization. Use word masking, which tells the model that certain words cannot be included in the summary. Better and less copying
+    \end{itemize}
+\end{itemize}
+\subsection{RL for summarization}
+\begin{itemize}
+    \item Optimize ROUGE-L
+    \item Improves ROUGE scores but makes readability much worse
+    \item RL + ML model produces higher ROUGE scores and higher readability score
+\end{itemize}
+\section{Dialogue}
+\begin{itemize}
+    \item Task-oriented dialogue
+    \begin{itemize}
+        \item Assistive: Customer support, giving recos, QA
+        \item Co-operative: Solve task together
+        \item Advesarial: Compete
+    \end{itemize}
+    \item Social Dialogue
+    \begin{itemize}
+        \item Chit-chat
+        \item Therapy/mental wellbeing
+    \end{itemize}
+    \item seq2seq + attention has problems
+    \begin{itemize}
+        \item Generic
+        \item Irrelevant responses
+        \item Repetition
+        \item Lack of context
+        \item Lack of consistent persona
+    \end{itemize}
+\end{itemize}
+\subsection{Irrelevant response}
+\begin{itemize}
+    \item Unrelated response. 
+    \item Solution: Maximum Mutual Info between input $S$ and response $T$.
+    \begin{equation}
+    \begin{split}
+        T = arg max{log p(T|S) - log p(T)}
+    \end{split}
+    \end{equation}
+\end{itemize}
+\subsection{Generic/Boring response problem}
+\begin{itemize}
+    \item Easy fixes: Directly upweight rare words during beam search
+    \item Use a sampling decoding algorithm rather than beam search
+    \item \textbf{Conditioning fixes}: Condition decoder on additional context 
+    \item Train retrieve-and-refine model instead of generate-from-scratch model
+\end{itemize}
+\subsection{Repetition problem}
+\begin{itemize}
+    \item Simple: Directly block repeating n-grams during beam search. Very effective
+    \item Complex solutions
+    \begin{itemize}
+        \item Train a coverage mechanism. Prevent attention from attending to same words multiple times.
+        \item Training objective to discourage repetition. Non-differentiable function. Will have to be solved with RL.
+    \end{itemize}
+\end{itemize}
+\section{Storytelling}
+\begin{itemize}
+    \item generate paragraph given input
+    \item Shared embedding space.
+    \item Use skip-thought vectors to create sentence embedding
+    \item Learn mapping from images to skip-thought encoding of their captions
+    \item Train RNN-LM to decode skip-thought vector to the original text
+    \item Put the two together
+\end{itemize}
+\section{NLG evaluation}
+\begin{itemize}
+    \item Word overlap metrics not ideal for MT. Worse for summarization.
+    \item Find focused automatic metrics
+    \begin{itemize}
+        \item FLuency(compute prob wrt LM)
+        \item Style
+        \item Diversity
+        \item Relevance
+        \item Length and repetition
+        \item Task specific metrics
+    \end{itemize}
+\end{itemize}
+\end{document}
