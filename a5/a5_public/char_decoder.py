@@ -36,6 +36,7 @@ class CharDecoder(nn.Module):
             len(target_vocab.id2char), char_embedding_size
         )
         self.padding_idx = target_vocab.char2id["<pad>"]
+        self.target_vocab = target_vocab
 
         ### END YOUR CODE
 
@@ -84,7 +85,6 @@ class CharDecoder(nn.Module):
         @returns decodedWords: a list (of length batch) of strings, each of which has length <= max_length.
                               The decoded strings should NOT contain the start-of-word and end-of-word characters.
         """
-
         ### YOUR CODE HERE for part 2d
         ### TODO - Implement greedy decoding.
         ### Hints:
@@ -92,5 +92,28 @@ class CharDecoder(nn.Module):
         ###      - Use torch.tensor(..., device=device) to turn a list of character indices into a tensor.
         ###      - We use curly brackets as start-of-word and end-of-word characters. That is, use the character '{' for <START> and '}' for <END>.
         ###        Their indices are self.target_vocab.start_of_word and self.target_vocab.end_of_word, respectively.
+        output_words = []
+        decodedWords = []
+        start_idx = self.target_vocab.start_of_word
+        end_idx = self.target_vocab.end_of_word
+        dec_hidden = initialStates
+        batch_size = dec_hidden[0].shape[1]
+        current_char = torch.tensor([[start_idx] * batch_size], device=device)
+        for _ in range(max_length):
+            (scores, dec_hidden) = self.forward(current_char, dec_hidden)
+            current_char = scores.argmax(-1)
+            output_words += [current_char]
+
+        output_words = torch.cat(output_words).t().tolist()
+        for word_idx in output_words:
+            word = ""
+            for char_idx in word_idx:
+                if char_idx == end_idx:
+                    break
+                word += self.target_vocab.id2char[char_idx]
+            decodedWords += [word]
+
+        return decodedWords
+
 
         ### END YOUR CODE
