@@ -1,0 +1,45 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath, blindtext, float, graphicx, hyperref}
+\graphicspath{ {./images/} }
+\title{Lecture 16: Coreference Resolution}
+\author{Shubham Gupta}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+\begin{itemize}
+    \item Identify all mentions that refer to the same real world entity
+    \item When one word refers to two or more entities, it is called \textbf{split antecedent}. No system can deal with these words. Eg: A and B went out. \textit{They} are retarded.  
+    \item Coref resolution helps in:
+    \begin{itemize}
+        \item Full text understanding
+        \item Machine translation
+        \item Dialogue systems
+    \end{itemize}
+    \item Steps:
+    \begin{itemize}
+        \item Detect the mentions(easy)
+        \item Cluster the mentions(hard) aka coreference
+    \end{itemize}
+\end{itemize}
+\section{Mention Detection}
+\begin{itemize}
+    \item Span of text referring to some entity
+    \begin{itemize}
+        \item Pronouns: I, your, it, she him. Use POS tagger
+        \item Named entities: people places, Use NER
+        \item Noun phrases: a dog, cat stuck in tree. Use parser(constituency parser)
+    \end{itemize}
+    \item Marking all pronouns, NE and NP over-generates mentions
+    \item Solution: Train classifier to filter spurious mentions. 
+    \item Solution 2: Collect all mentions as "candidate mentions". Discard mentions that have not been marked as coreference with any other word.
+\end{itemize}
+\section{Linguistics}
+\begin{itemize}
+    \item \textit{Anaphora}: One term(anaphor) refers to another term(antecedent). Interpretation for anaphor dependent on interpretation of antecedent
+    \item Obama said he would sign the bill.
+    \item Obama: Antecedant. he: anaphor
+    \item Not all anaphoric relations are coreferential
+\end{itemize}
+\end{document}
