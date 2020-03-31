@@ -41,5 +41,76 @@
     \item Obama said he would sign the bill.
     \item Obama: Antecedant. he: anaphor
     \item Not all anaphoric relations are coreferential
+    \begin{itemize}
+        \item \textit{Every Dancer} twisted \textit{her} knee.
+        \item \textit{No Dancer} twisted \textit{her} knee.
+    \end{itemize}
+    \item Hobbs Algorithm. Naive algorithm to do coreference. Baseline for coreference resolution.
+\end{itemize}
+\subsection{Knowledge based Pronominal coreference}
+\begin{itemize}
+    \item "IT" can refer to different entities as follows:
+    \begin{itemize}
+        \item She poured water from \textit{the pitcher} into \textit{the cup} until \textit{it} was full.
+        \item She poured water from \textit{the pitcher} into \textit{the cup} until \textit{it} was empty.
+    \end{itemize}
+    \item Hobbs algorithm fails for the above case.
+    \item These kind of sentences are called \textbf{Winograd Schema}. Named after scientist Henry Winograd who found these sentences. 
+    \item Can be used as good alternative to Turing test.
+\end{itemize}
+\section{Coreference Models: Mention Pair}
+\begin{itemize}
+    \item Take pairs of mentions and train binary classifier to classify if they are coreferrent or non-coreferrent.
+    \item Train with cross entropy loss
+    \begin{itemize}
+        \item Score pairs of words
+        \item Pick threhold. Add coreference links when the score is above threshold.
+        \item Take transitive closure to get the final clustering
+    \end{itemize}
+    \item Not the best way to do coref. One bad relationship can lead to collapse.
+    \item Many mentions only have one clear antecedant
+    \item \textbf{Solution}: train the model to predict only one antecedent for each mention 
+\end{itemize}
+\section{Mention Ranking}
+\begin{itemize}
+    \item Assign each mention its highest scoring candidate antecedent acc to model
+    \item Add NA mention to start of sentence to decline linking current mention to anything.
+\end{itemize}
+\section{Neural Coref Model}
+\begin{itemize}
+    \item Standard feed-forward NN
+    \item Input: word embeddings and categorical features
+    \item Embeddings:
+    \begin{itemize}
+        \item Previous two words, first word, last word, head word. etc
+    \end{itemize}
+    \item Other features
+    \begin{itemize}
+        \item Distance
+        \item Document genre
+        \item Speaker info
+    \end{itemize}
+\end{itemize}
+\section{Current SOTA}
+\begin{itemize}
+    \item Mention ranking model
+    \item Improvements
+    \begin{itemize}
+        \item Use LSTM
+        \item Use attention
+        \item Do mention detection and coref end-to-end
+    \end{itemize}
+\end{itemize}
+\section{Clustering Based}
+\begin{itemize}
+    \item Use agglomerative clustering
+    \item Each mention will have it's own cluster
+    \item Use model to score which cluster merges will be good
+    \item Mention pairs => Mention pair representations => Cluster Pair Rep => Score
+\end{itemize}
+\section{Evaluation}
+\begin{itemize}
+    \item Metrics: MUC, CEaF, LEA, B-CUBED, BLANC
+    \item Report average over a range of metrics
 \end{itemize}
 \end{document}
