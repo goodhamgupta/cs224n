@@ -11,6 +11,93 @@
 \begin{itemize}
     \item Semantic interpretation of lang wont'work with just word vectors
     \item Principle of Compositionality: know words, combine their meanings in different contexts to find bigger meanings
+    \item Languages are recursive to some extent. They have structure
+    \item \textbf{Constituency Parsing}: Context-free grammers 
+    \item Need neural model to use the tree structure from constituency parsing
+    \item Compute meaning of longer phrases so that they can be stored in the same vector space as word vectors.
+    \item \textbf{Solution}: Principle of compositionality:
+    \begin{itemize}
+        \item Meaning of words
+        \item Rules to combine these meanings
+    \end{itemize}
+\end{itemize}
+\section{Recursive NN for structure prediction}
+\begin{itemize}
+    \item Bottom layer: word vectors
+    \item Feed intermediate vectors into another NN.
+    \item Use the output as a score and as a vector for meaning composition
+    \item Score: $U^Tp$
+    \item $p = tanh\bigg(W\begin{bmatrix} c_1 \\ c_2 \end{bmatrix}  + b\bigg)$
+    \item Same weight matrix at all nodes of the tree
+\end{itemize}
+\subsection{Max-Margin Framework}
+\begin{itemize}
+    \item Max margin objection
+    \begin{equation}
+    \begin{split}
+        J = \sum_{i} s(x_i, y_i) - max(s(x_i,y) + \Delta(y, y_i))
+    \end{split}
+    \end{equation}
+    \item Final delta term penalizes al incorrect decisions
+    \item DP algos can find paths in sentence in polynomial time.
+\end{itemize}
+\subsection{Image parsing}
+\begin{itemize}
+    \item Use same algorithm to find constituents in images.
+\end{itemize}
+\section{Backprop through structure}
+\begin{itemize}
+    \item Tried before by German scientists.
+    \item Similar to backprop through time for RNN.
+\end{itemize}
+\subsection{V2: Syntactically Untied RNN}
+\begin{itemize}
+    \item Symbolic CFG backbone is adequate for basic syntatic structure
+    \item Use different weight matrices for different phrases
+    \item Compute score only for subset of trees comping from PCFG
+    \begin{itemize}
+        \item Prunes unlikely candidates for speed
+        \item Provides choices for the children at each beam candidate
+    \end{itemize}
+    \item Compositional Vector Grammer = PCFG + TreeRNN
+\end{itemize}
+\subsection{V3: Compositionality through Recusive Matrix Vector Spaces}
+\begin{itemize}
+    \item Reason: Still thought not even expressive power
+    \item Start untying weight matrix $W$.
+    \item Solution: A new composition function
+    \item Some words can have vectors and some words can be represented by matrixces
+    \begin{itemize}
+        \item Consider the word \textit{very} 
+        \item In context, it can refer to something extra positive or extra negative i.e very good or very bad.
+        \item Hence, very should typically be represented by a matrix
+    \end{itemize}
+    \item Question: Which words should use vectors and which of them should use matrices?
+    \item Assume every word has both a matrix and a vector.
+    \item For the operation, take the vector meaning of one word and multiply it with the matrix meaning of the other word
+    \item Combine both matrix and vector meaning using:
+    \begin{equation}
+    \begin{split}  
+    p = tanh\bigg(W\begin{bmatrix} c_2 && c_1 \\ c_1 && c_2 \end{bmatrix}  + b\bigg)
+    \end{split}
+    \end{equation}
+    \item Matrix meaning was computed as follows: Concatenate the two matrices, multiply with another matrix which will give final result
+    \begin{equation}
+    \begin{split}
+        P = g(A,B) = W_M \begin{bmatrix} A \\ B \end{bmatrix} 
+    \end{split}
+    \end{equation}
+    \item Problems with matrices approach
+    \begin{itemize}
+        \item Increased number of params exponentially
+        \item Difficult to build matrix meaning of bigger phrases
+    \end{itemize}
+\end{itemize}
+\subsection{V4: Recursive Neural Tensor Network}
+\begin{itemize}
+    \item Lesser params
+    \item Allow two word or phrase vectors to interact multiplicatively
+    \item Similar to attention where we introduce a matrix between vectors to help them interact with each other, in this network, we will introduce a 3-D matrix instead i.e \textbf{tensor}  
 \end{itemize}
 
 \end{document}

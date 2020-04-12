@@ -1,1 +1,8 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Recursive NN for structure prediction}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Max-Margin Framework}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Image parsing}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Backprop through structure}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{V2: Syntactically Untied RNN}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{V3: Compositionality through Recusive Matrix Vector Spaces}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.3}{V4: Recursive Neural Tensor Network}{section.3}% 8
