@@ -8,13 +8,14 @@
 \begin{document}
 \maketitle
 \section{NMT with RNN}
-\subsection{1. G}
+\subsection{1G}
 \begin{itemize}
     \item Masking sentences is critical for attention to work.
     \item In both the encoder and the decoder, they help set the attention to zero for the padded tokens and non-zero for the actual tokens.
     \item In the decoder, the prevent the decoder from "peaking" into the tokens in the future. This helps ensure that the decoder focusses only on the information from the past.
+    \item They also prevent the decoder from predicting the <pad> padding tokens that are usually present in every training batch. These tokens are not useful during prediction, since the sentence predicted generally ends with a <EOS> token instead. 
 \end{itemize}
-\subsection{1. J}
+\subsection{1J}
 \begin{itemize}
     \item \textbf{Additive Attention} 
         \begin{itemize}
